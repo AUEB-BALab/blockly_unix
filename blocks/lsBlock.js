@@ -1,54 +1,53 @@
 var lsBlock = {
-  type: "ls",
-  message0: "%{BKY_LS_MESSAGE}",
-  category: "File and Directory Operations",
+  type: 'ls',
+  message0: '%{BKY_LS_MESSAGE}',
+  category: 'File and Directory Operations',
   unix_description: [
     {
-      detailed: "-l",
-      recursively: "-R",
-      hidden: "-a",
-      reverse: "-r"
-
-    }
+      detailed: '-l',
+      recursively: '-R',
+      hidden: '-a',
+      reverse: '-r',
+    },
   ],
 
-  message1: "%{BKY_LS_SHOW_DETAILS}",
+  message1: '%{BKY_LS_SHOW_DETAILS}',
   args1: [
     {
-      type: "field_checkbox",
-      name: "detailed",
-      checked: false // by default it's disabled
-    }
+      type: 'field_checkbox',
+      name: 'detailed',
+      checked: false, // by default it's disabled
+    },
   ],
-  message2: "%{BKY_LS_SUBDIRECTORIES}",
+  message2: '%{BKY_LS_SUBDIRECTORIES}',
   args2: [
     {
-      type: "field_checkbox",
-      name: "recursively",
-      checked: false // by default it's disabled
-    }
+      type: 'field_checkbox',
+      name: 'recursively',
+      checked: false, // by default it's disabled
+    },
   ],
-  message3: "%{BKY_LS_HIDDEN}",
+  message3: '%{BKY_LS_HIDDEN}',
   args3: [
     {
-      type: "field_checkbox",
-      name: "hidden",
-      checked: false // by default it's disabled
-    }
+      type: 'field_checkbox',
+      name: 'hidden',
+      checked: false, // by default it's disabled
+    },
   ],
-  message4: "%{BKY_LS_REVERSE_ORDER}",
+  message4: '%{BKY_LS_REVERSE_ORDER}',
   args4: [
     {
-      type: "field_checkbox",
-      name: "reverse",
-      checked: false // by default it's disabled
-    }
+      type: 'field_checkbox',
+      name: 'reverse',
+      checked: false, // by default it's disabled
+    },
   ],
-  style: "File and Directory Operations",
-  previousStatement: "Action",
-  nextStatement: "Action",
-  tooltip: "%{BKY_LS_TOOLTIP}",
-  helpUrl: "" // URL to further information or documentation.
+  style: 'File and Directory Operations',
+  previousStatement: 'Action',
+  nextStatement: 'Action',
+  tooltip: '%{BKY_LS_TOOLTIP}',
+  helpUrl: '', // URL to further information or documentation.
 };
 
 Blockly.defineBlocksWithJsonArray([lsBlock]);

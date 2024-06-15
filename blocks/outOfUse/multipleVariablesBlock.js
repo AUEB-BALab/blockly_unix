@@ -1,18 +1,18 @@
 var multipleVariablesBlock = {
-    type: "multipleVariables",
-	category: "awk",
-    message0: "%{BKY_VAR_CREATE_WITH} %1",
-    args0: [
-      {
-        type: "input_dummy",
-        name: "EMPTY",
-      },
-    ],
-    output: "String",
-    style: "list_blocks", 
-    helpUrl: "%{BKY_VAR_CREATE_WITH_HELPURL}",
-    tooltip: "%{BKY_VAR_CREATE_WITH_TOOLTIP}",
-    mutator: "new_list_create_with_mutator_Var",
+  type: 'multipleVariables',
+  category: 'awk',
+  message0: '%{BKY_VAR_CREATE_WITH} %1',
+  args0: [
+    {
+      type: 'input_dummy',
+      name: 'EMPTY',
+    },
+  ],
+  output: 'String',
+  style: 'list_blocks',
+  helpUrl: '%{BKY_VAR_CREATE_WITH_HELPURL}',
+  tooltip: '%{BKY_VAR_CREATE_WITH_TOOLTIP}',
+  mutator: 'new_list_create_with_mutator_Var',
 };
 
 Blockly.defineBlocksWithJsonArray([multipleVariablesBlock]);
@@ -29,7 +29,7 @@ const listCreateMutator_Var = {
    * @returns {!Element} XML storage element.
    * @this {Blockly.Block}
    */
-  mutationToDom: function() {
+  mutationToDom: function () {
     const container = Blockly.utils.xml.createElement('mutation');
     container.setAttribute('items', this.itemCount_);
     return container;
@@ -39,7 +39,7 @@ const listCreateMutator_Var = {
    * @param {!Element} xmlElement XML storage element.
    * @this {Blockly.Block}
    */
-  domToMutation: function(xmlElement) {
+  domToMutation: function (xmlElement) {
     const targetCount = parseInt(xmlElement.getAttribute('items'), 10);
     this.updateShape_(targetCount);
   },
@@ -48,9 +48,9 @@ const listCreateMutator_Var = {
    * Returns the state of this block as a JSON serializable object.
    * @returns {{itemCount: number}} The state of this block, ie the item count.
    */
-  saveExtraState: function() {
+  saveExtraState: function () {
     return {
-      'itemCount': this.itemCount_,
+      itemCount: this.itemCount_,
     };
   },
 
@@ -58,7 +58,7 @@ const listCreateMutator_Var = {
    * Applies the given state to this block.
    * @param {*} state The state to apply to this block, ie the item count.
    */
-  loadExtraState: function(state) {
+  loadExtraState: function (state) {
     this.updateShape_(state['itemCount']);
   },
 
@@ -68,7 +68,7 @@ const listCreateMutator_Var = {
    * @this {Blockly.Block}
    * @private
    */
-  updateShape_: function(targetCount) {
+  updateShape_: function (targetCount) {
     while (this.itemCount_ < targetCount) {
       this.addPart_();
     }
@@ -82,7 +82,7 @@ const listCreateMutator_Var = {
    * Callback for the plus image. Adds an input to the end of the block and
    * updates the state of the minus.
    */
-  plus: function() {
+  plus: function () {
     this.addPart_();
     this.updateMinus_();
   },
@@ -91,7 +91,7 @@ const listCreateMutator_Var = {
    * Callback for the minus image. Removes an input from the end of the block
    * and updates the state of the minus.
    */
-  minus: function() {
+  minus: function () {
     if (this.itemCount_ == 0) {
       return;
     }
@@ -109,12 +109,12 @@ const listCreateMutator_Var = {
    * @this {Blockly.Block}
    * @private
    */
-  addPart_: function() {
+  addPart_: function () {
     if (this.itemCount_ == 0) {
       this.removeInput('EMPTY');
       this.topInput_ = this.appendValueInput('ADD' + this.itemCount_)
-          .appendField(createPlusField(), 'PLUS')
-          .appendField(Blockly.Msg['VAR_CREATE_WITH']);
+        .appendField(createPlusField(), 'PLUS')
+        .appendField(Blockly.Msg['VAR_CREATE_WITH']);
     } else {
       this.appendValueInput('ADD' + this.itemCount_);
     }
@@ -127,13 +127,13 @@ const listCreateMutator_Var = {
    * @this {Blockly.Block}
    * @private
    */
-  removePart_: function() {
+  removePart_: function () {
     this.itemCount_--;
     this.removeInput('ADD' + this.itemCount_);
     if (this.itemCount_ == 0) {
       this.topInput_ = this.appendDummyInput('EMPTY')
-          .appendField(createPlusField(), 'PLUS')
-          .appendField(Blockly.Msg['VAR_CREATE_EMPTY_TITLE']);
+        .appendField(createPlusField(), 'PLUS')
+        .appendField(Blockly.Msg['VAR_CREATE_EMPTY_TITLE']);
     }
   },
 
@@ -141,7 +141,7 @@ const listCreateMutator_Var = {
    * Makes it so the minus is visible iff there is an input available to remove.
    * @private
    */
-  updateMinus_: function() {
+  updateMinus_: function () {
     const minusField = this.getField('MINUS');
     if (!minusField && this.itemCount_ > 0) {
       this.topInput_.insertFieldAt(1, createMinusField(), 'MINUS');
@@ -155,13 +155,13 @@ const listCreateMutator_Var = {
  * Updates the shape of the block to have 3 inputs if no mutation is provided.
  * @this {Blockly.Block}
  */
-const listCreateHelper_Var = function() {
+const listCreateHelper_Var = function () {
   this.getInput('EMPTY').insertFieldAt(0, createPlusField(), 'PLUS');
   this.updateShape_(2);
 };
 
-Blockly.Extensions.registerMutator('new_list_create_with_mutator_Var',
-    listCreateMutator_Var, listCreateHelper_Var);
-
-   
-
+Blockly.Extensions.registerMutator(
+  'new_list_create_with_mutator_Var',
+  listCreateMutator_Var,
+  listCreateHelper_Var,
+);

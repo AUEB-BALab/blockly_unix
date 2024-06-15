@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blockly Demo: Unix</title>
     <script src="https://unpkg.com/blockly@latest/blockly_compressed.js"></script>
     <script src="https://unpkg.com/blockly@latest/blocks_compressed.js"></script>
     <script src="https://unpkg.com/blockly@latest/javascript_compressed.js"></script>
-	<!-- <script src="https://unpkg.com/@blockly/block-plus-minus"></script> -->
+    <!-- <script src="https://unpkg.com/@blockly/block-plus-minus"></script> -->
 
-	<!-- BLOCKS DEFINITION -->
+    <!-- BLOCKS DEFINITION -->
     <script src="blocks/beginEndBlock.js"></script>
-	<script src="blocks/filenameBlock.js"></script>
-	<script src="blocks/headBlock.js"></script>
-	<script src="blocks/tailBlock.js"></script>
-	<script src="blocks/wcBlock.js"></script>
-	<script src="blocks/sortBlock.js"></script>
-	<script src="blocks/uniqBlock.js"></script>
-	<script src="blocks/findDuplicatesBlock.js"></script>
-	<script src="blocks/showUniqsBlock.js"></script>
-	<script src="blocks/lsBlock.js"></script>
-	<script src="blocks/cdBlock.js"></script>
-	<script src="blocks/mkdirBlock.js"></script>
-	<script src="blocks/gzipBlock.js"></script>
-	<script src="blocks/grepBlock.js"></script>
-	<script src="blocks/sedBlock.js"></script>
-	<script src="blocks/awkBlock.js"></script>
-	<script src="blocks/cutBlock.js"></script>
-	<script src="blocks/catBlock.js"></script>
-	<script src="blocks/saveBlock.js"></script>
-	<script src="blocks/appendBlock.js"></script>
-	<script src="blocks/regOutputBlock.js"></script>
-	<script src="blocks/regPatternBlock.js"></script>
-	<script src="blocks/regOrBlock.js"></script>
-	<script src="blocks/regNegationBlock.js"></script>
-	<script src="blocks/regCapturingGroupBlock.js"></script>
-	<script src="blocks/regStartBlock.js"></script>
-	<script src="blocks/regEndBlock.js"></script>
-	<script src="blocks/regForBlock.js"></script>
-	<script src="blocks/regRangeBlock.js"></script>
-	<script src="blocks/regQuantBlock.js"></script>
-	<script src="blocks/regAnyOneBlock.js"></script>
-	<script src="blocks/condOutputBlock.js"></script>
+    <script src="blocks/filenameBlock.js"></script>
+    <script src="blocks/headBlock.js"></script>
+    <script src="blocks/tailBlock.js"></script>
+    <script src="blocks/wcBlock.js"></script>
+    <script src="blocks/sortBlock.js"></script>
+    <script src="blocks/uniqBlock.js"></script>
+    <script src="blocks/findDuplicatesBlock.js"></script>
+    <script src="blocks/showUniqsBlock.js"></script>
+    <script src="blocks/lsBlock.js"></script>
+    <script src="blocks/cdBlock.js"></script>
+    <script src="blocks/mkdirBlock.js"></script>
+    <script src="blocks/gzipBlock.js"></script>
+    <script src="blocks/grepBlock.js"></script>
+    <script src="blocks/sedBlock.js"></script>
+    <script src="blocks/awkBlock.js"></script>
+    <script src="blocks/cutBlock.js"></script>
+    <script src="blocks/catBlock.js"></script>
+    <script src="blocks/saveBlock.js"></script>
+    <script src="blocks/appendBlock.js"></script>
+    <script src="blocks/regOutputBlock.js"></script>
+    <script src="blocks/regPatternBlock.js"></script>
+    <script src="blocks/regOrBlock.js"></script>
+    <script src="blocks/regNegationBlock.js"></script>
+    <script src="blocks/regCapturingGroupBlock.js"></script>
+    <script src="blocks/regStartBlock.js"></script>
+    <script src="blocks/regEndBlock.js"></script>
+    <script src="blocks/regForBlock.js"></script>
+    <script src="blocks/regRangeBlock.js"></script>
+    <script src="blocks/regQuantBlock.js"></script>
+    <script src="blocks/regAnyOneBlock.js"></script>
+    <script src="blocks/condOutputBlock.js"></script>
     <script src="blocks/multiplePrintBlock.js"></script>
     <script src="blocks/filenamesCreateBlock.js"></script>
     <script src="blocks/columnBlock.js"></script>
@@ -56,31 +56,39 @@
     <script src="blocks/NFBlock.js"></script>
     <script src="blocks/xargsBlock.js"></script>
 
-	<!-- END OF BLOCK DEFINITION -->
+    <!-- END OF BLOCK DEFINITION -->
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-	<link rel="stylesheet" href="styles.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="buttonContainer">
+      <button id="resetButton" class="icon-button" title="Reset Workspace">
+        <i class="fas fa-undo"></i>
+      </button>
+      <button id="executeButton" class="icon-button" title="Execute">
+        <i class="fas fa-play"></i>
+      </button>
+    </div>
 
-</head>
-<body>
-      
-<div id="buttonContainer">
-	<button id="resetButton" class="icon-button" title="Reset Workspace"><i class="fas fa-undo"></i></button> 
-    <button id="executeButton" class="icon-button" title="Execute"><i class="fas fa-play"></i></button> 
-</div>
+    <div id="blocklyArea">
+      <div id="blocklyDiv"></div>
+    </div>
+    <div id="resultsWrapper">
+      <div id="resultsArea">Results will appear here...</div>
+      <button
+        id="copyButton"
+        style="position: absolute; right: 10px; bottom: 21px"
+      >
+        <img src="img/copy_icon.png" alt="copy" />
+      </button>
+    </div>
 
-<div id="blocklyArea">
-    <div id="blocklyDiv"></div>
-</div>
-<div id="resultsWrapper">
-    <div id="resultsArea">Results will appear here...</div>
-	<button id="copyButton" style="position: absolute; right: 10px; bottom: 21px;">
-		<img src="img/copy_icon.png" alt="copy" />
-	</button>
-</div>
-
-<script>
-    var toolboxXML = `
+    <script>
+      var toolboxXML = `
         <xml>
             <category name="Text Processing" colour="#4CAF50">
                 <block type="head"></block>
@@ -188,9 +196,9 @@
            
         </xml>
     `;
-            
-    Blockly.Themes.Halloween = Blockly.Theme.defineTheme('halloween', {
-        'base': Blockly.Themes.Classic,
+
+      Blockly.Themes.Halloween = Blockly.Theme.defineTheme('halloween', {
+        base: Blockly.Themes.Classic,
         // 'categoryStyles': {
         //     'I/O Redirection': {
         //     'colour': "#FE9B13"
@@ -205,47 +213,47 @@
         //     'colour': "#FE9B13",
         //     },
         // },
-        'blockStyles': {
-            'Text Processing': {
-            'colourPrimary': "#4CAF50",
-            'colourSecondary':"#FFCDD2",
-            'colourTertiary':"#CDB6E9",
-            },
-            'File inputs': {
-            'colourPrimary': "#5C81A6",
-            'colourSecondary':"#ff0000",
-            'colourTertiary':"#C5EAFF"
-            },
-            'Data Processing': {
-            'colourPrimary': "#3B7C09",
-            'colourSecondary':"#ff0000",
-            'colourTertiary':"#C5EAFF"
-            },
-            'File and Directory Operations': {
-            'colourPrimary': "#FE9B13",
-            'colourSecondary':"#ff0000",
-            'colourTertiary':"#C5EAFF"
-            },
-            'I/O Redirection': {
-            'colourPrimary': "#1976D2",
-            'colourSecondary':"#ff0000",
-            'colourTertiary':"#C5EAFF"
-            },
-            'Regular Expressions': {
-            'colourPrimary': "#FF5733",
-            'colourSecondary':"#ff0000",
-            'colourTertiary':"#C5EAFF"
-            },
-            'Text output': {
-            'colourPrimary': "#FF5733",
-            'colourSecondary':"#ff0000",
-            'colourTertiary':"#C5EAFF"
-            },
-            'Math - logic - loops': {
-            'colourPrimary': "#D800FF",
-            'colourSecondary':"#ff0000",
-            'colourTertiary':"#C5EAFF"
-            },
+        blockStyles: {
+          'Text Processing': {
+            colourPrimary: '#4CAF50',
+            colourSecondary: '#FFCDD2',
+            colourTertiary: '#CDB6E9',
+          },
+          'File inputs': {
+            colourPrimary: '#5C81A6',
+            colourSecondary: '#ff0000',
+            colourTertiary: '#C5EAFF',
+          },
+          'Data Processing': {
+            colourPrimary: '#3B7C09',
+            colourSecondary: '#ff0000',
+            colourTertiary: '#C5EAFF',
+          },
+          'File and Directory Operations': {
+            colourPrimary: '#FE9B13',
+            colourSecondary: '#ff0000',
+            colourTertiary: '#C5EAFF',
+          },
+          'I/O Redirection': {
+            colourPrimary: '#1976D2',
+            colourSecondary: '#ff0000',
+            colourTertiary: '#C5EAFF',
+          },
+          'Regular Expressions': {
+            colourPrimary: '#FF5733',
+            colourSecondary: '#ff0000',
+            colourTertiary: '#C5EAFF',
+          },
+          'Text output': {
+            colourPrimary: '#FF5733',
+            colourSecondary: '#ff0000',
+            colourTertiary: '#C5EAFF',
+          },
+          'Math - logic - loops': {
+            colourPrimary: '#D800FF',
+            colourSecondary: '#ff0000',
+            colourTertiary: '#C5EAFF',
+          },
         },
         // 'componentStyles': {
         //     'workspaceBackgroundColour': '#ff7518',
@@ -261,35 +269,32 @@
         //     'cursorColour': '#d0d0d0',
         //     'blackBackground': '#333'
         // }
-        });
+      });
 
-
-
-    var workspace = Blockly.inject('blocklyDiv', {
+      var workspace = Blockly.inject('blocklyDiv', {
         // renderer : 'Zelos',
         toolbox: toolboxXML,
         theme: Blockly.Themes.Halloween,
-		trashcan: true,
-        collapse : true, 
-        comments : true, 
-        disable : true, 
-        maxBlocks : Infinity, 
+        trashcan: true,
+        collapse: true,
+        comments: true,
+        disable: true,
+        maxBlocks: Infinity,
         move: {
-            scrollbars: true,  // Enables or disables scrollbars on the workspace
-            drag: true,        // Allows workspace to be moved (dragged) with the mouse
-            wheel: true        // Enables or disables scrolling with the mouse wheel
+          scrollbars: true, // Enables or disables scrollbars on the workspace
+          drag: true, // Allows workspace to be moved (dragged) with the mouse
+          wheel: true, // Enables or disables scrolling with the mouse wheel
         },
-        zoom : {
-            controls : true, 
-            wheel : true, 
-            startScale : 1, 
-            maxScale : 3, 
-            minScale : 0.3, 
-            scaleSpeed : 1.2
-        }
-    });
-</script>
-<script src="main.js"></script>
-</body>
+        zoom: {
+          controls: true,
+          wheel: true,
+          startScale: 1,
+          maxScale: 3,
+          minScale: 0.3,
+          scaleSpeed: 1.2,
+        },
+      });
+    </script>
+    <script src="main.js"></script>
+  </body>
 </html>
-
