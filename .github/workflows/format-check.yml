@@ -24,10 +24,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Prettier check
-        run: npx prettier --check .
-
-      - name: Run Prettier fix (if needed)
+      - name: Run Prettier fix
         run: |
           npx prettier --write .
           git config --global user.name 'github-actions'
