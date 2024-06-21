@@ -514,9 +514,9 @@ function handleMainBlocks(
           field.getValue() != 0
             ? field.getValue()
             : field.getValue() == 0
-            ? ''
-            : blockDefinition.unix_description[0][field.name] +
-              field.getValue();
+              ? ''
+              : blockDefinition.unix_description[0][field.name] +
+                field.getValue();
       } else if (input.type === Blockly.INPUT_VALUE) {
         console.log('***', input.type, input.name, blockDefinition);
         if (
@@ -628,14 +628,14 @@ function handleRegexBlocks(block, blockDefinition, patternValue) {
           blockDefinition.unix_description[0][field.name] == null
             ? field.getValue()
             : patternValue
-            ? blockDefinition.unix_description[0][field.name]
-                .replace('n', field.getValue())
-                .replace('m', field.getValue())
-                .replace('patt', patternValue)
-            : blockDefinition.unix_description[0][field.name]
-                .replace('n', field.getValue())
-                .replace('m', field.getValue())
-                .replace('patt', '');
+              ? blockDefinition.unix_description[0][field.name]
+                  .replace('n', field.getValue())
+                  .replace('m', field.getValue())
+                  .replace('patt', patternValue)
+              : blockDefinition.unix_description[0][field.name]
+                  .replace('n', field.getValue())
+                  .replace('m', field.getValue())
+                  .replace('patt', '');
 
         //specifically made for the regForBlock in case n=m is replaced with the '}' option(commandParts.length - 2 is used because the last part of the list is an object with an undefined value - don't know what)
         str = commandParts[commandParts.length - 2]
@@ -652,14 +652,14 @@ function handleRegexBlocks(block, blockDefinition, patternValue) {
           blockDefinition.unix_description[0][field.name] == null
             ? field.getValue()
             : patternValue
-            ? blockDefinition.unix_description[0][field.name].replace(
-                'patt',
-                patternValue,
-              )
-            : blockDefinition.unix_description[0][field.name].replace(
-                'patt',
-                field.getValue(),
-              );
+              ? blockDefinition.unix_description[0][field.name].replace(
+                  'patt',
+                  patternValue,
+                )
+              : blockDefinition.unix_description[0][field.name].replace(
+                  'patt',
+                  field.getValue(),
+                );
       } else if (input.type === Blockly.INPUT_VALUE) {
         value = blockDefinition.unix_description[0][input.name]
           ? blockDefinition.unix_description[0][input.name].replace(
