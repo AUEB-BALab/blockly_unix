@@ -29,11 +29,11 @@ The user-friendliness of data processing activities is improved as a result of t
 
 To ensure that code is properly formatted before committing, set up the pre-commit hook by following these steps :
 
-1. Run the following command bellow the root directory :
+1. Run the following command at the top-level directory :
 
    `printf '#!/bin/sh\nbin/pre-commit\n' > .git/hooks/pre-commit`
 
-2. Make both scripts executable through this command :
+2. Make both scripts executable through the following command :
 
    `chmod +x .git/hooks/pre-commit bin/pre-commit`
 
