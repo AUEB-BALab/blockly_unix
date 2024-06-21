@@ -14,23 +14,15 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run Prettier fix
-        run: |
-          npx prettier --write .
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
-          git add .
-          git commit -m "Apply code formatting changes" || echo "No changes to commit"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check code formatting
+        run: npm run format-check

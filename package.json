@@ -4,11 +4,11 @@
   "description": "This is a development environment based on **Blockly** where users can easily construct data processing pipelines by visually plugging together processing blocks. The pipeline will be implemented underneath using Unix tools. ![Picture2](https://github.com/vcipi/blockly_unix/assets/108274884/8bb6be00-a88b-4145-bb61-8be70e9b5c58)",
   "main": "main.js",
   "scripts": {
-    "prettier-check": "prettier --check './**/*.js'",
-    "prettier-fix": "prettier --write './**/*.js'"
+    "format-check": "prettier --check .",
+    "prettier-fix": "prettier --write ."
   },
   "devDependencies": {
-    "prettier": "^2.0.5"
+    "prettier": "^3.2.5"
   },
   "license": "ISC"
 }

@@ -25,6 +25,18 @@ The user-friendliness of data processing activities is improved as a result of t
 
 ![Picture3](https://github.com/vcipi/blockly_unix/assets/108274884/67304620-7e13-4718-973e-55cf3f2e296c)
 
+# Setting Up Pre-commit Hook
+
+To ensure that code is properly formatted before committing, set up the pre-commit hook by following these steps :
+
+1. Run the following command bellow the root directory :
+
+   `printf '#!/bin/sh\nbin/pre-commit\n' > .git/hooks/pre-commit`
+
+2. Make both scripts executable through this command :
+
+   `chmod +x .git/hooks/pre-commit bin/pre-commit`
+
 # Further information
 
 The work behind this project is further documented in MSc theses by
