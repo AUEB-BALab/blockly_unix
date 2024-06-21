@@ -13,41 +13,40 @@ var andOrBlock = {
   // nextStatement: "Action",
   // tooltip: "AND condition",
   // helpUrl: "" // URL to further information or documentation.
-  'type': 'andOr',
-  category: "awk",
+  type: 'andOr',
+  category: 'awk',
   unix_description: [
     {
-      or: "||",
-      and: "&&"
-    }
+      or: '||',
+      and: '&&',
+    },
   ],
-  'message0': '%1 %2 %3',
-  'args0': [
+  message0: '%1 %2 %3',
+  args0: [
     {
-      'type': 'input_value',
-      'name': 'A',
-      'check': 'Boolean',
+      type: 'input_value',
+      name: 'A',
+      check: 'Boolean',
     },
     {
-      'type': 'field_dropdown',
-      'name': 'OP',
-      'options': [
+      type: 'field_dropdown',
+      name: 'OP',
+      options: [
         ['and', 'AND'],
         ['or', 'OR'],
       ],
     },
     {
-      'type': 'input_value',
-      'name': 'B',
-      'check': 'Boolean',
+      type: 'input_value',
+      name: 'B',
+      check: 'Boolean',
     },
   ],
-  'inputsInline': true,
-  'output': 'Boolean',
-  'style': 'logic_blocks',
-  'helpUrl': '%{BKY_LOGIC_OPERATION_HELPURL}',
-  'extensions': ['logic_op_tooltip']
-
+  inputsInline: true,
+  output: 'Boolean',
+  style: 'logic_blocks',
+  helpUrl: '%{BKY_LOGIC_OPERATION_HELPURL}',
+  extensions: ['logic_op_tooltip'],
 };
 
 Blockly.defineBlocksWithJsonArray([andOrBlock]);
