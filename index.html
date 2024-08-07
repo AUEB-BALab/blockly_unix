@@ -4,12 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blockly Demo: Unix</title>
+    <meta name="x-auth-token" content="" />
     <script src="https://unpkg.com/blockly@latest/blockly_compressed.js"></script>
     <script src="https://unpkg.com/blockly@latest/blocks_compressed.js"></script>
     <script src="https://unpkg.com/blockly@latest/javascript_compressed.js"></script>
+    <script src="https://unpkg.com/@blockly/workspace-minimap@latest"></script>
+    <script
+      src="https://unpkg.com/@blockly/plugin-toolbox-search@latest"
+      type="application/javascript"
+    ></script>
+    <script src="https://unpkg.com/@blockly/plugin-scroll-options@latest"></script>
+    <script src="https://unpkg.com/@blockly/workspace-backpack@latest"></script>
+    <script src="https://unpkg.com/@blockly/plugin-cross-tab-copy-paste@latest"></script>
+    <script src="js/el.js"></script>
     <!-- <script src="https://unpkg.com/@blockly/block-plus-minus"></script> -->
 
     <!-- BLOCKS DEFINITION -->
+    <script src="blocks/psBlock.js"></script>
+    <script src="blocks/dfBlock.js"></script>
+    <script src="blocks/killBlock.js"></script>
+    <script src="blocks/chmodBlock.js"></script>
+    <script src="blocks/duBlock.js"></script>
+    <script src="blocks/chownBlock.js"></script>
+    <script src="blocks/lnBlock.js"></script>
+    <script src="blocks/mvBlock.js"></script>
+    <script src="blocks/cpBlock.js"></script>
+    <script src="blocks/rmBlock.js"></script>
+    <script src="blocks/tarBlock.js"></script>
+    <script src="blocks/gzipBlock.js"></script>
+    <script src="blocks/unzipBlock.js"></script>
+    <script src="blocks/scpBlock.js"></script>
+    <script src="blocks/sshBlock.js"></script>
+    <script src="blocks/curlBlock.js"></script>
+    <script src="blocks/pingBlock.js"></script>
+    <script src="blocks/journalctlBlock.js"></script>
+    <script src="blocks/uptimeBlock.js"></script>
+    <script src="blocks/whoBlock.js"></script>
+    <script src="blocks/hostnameBlock.js"></script>
+    <script src="blocks/dateBlock.js"></script>
+    <script src="blocks/sleepBlock.js"></script>
     <script src="blocks/beginEndBlock.js"></script>
     <script src="blocks/filenameBlock.js"></script>
     <script src="blocks/headBlock.js"></script>
@@ -56,6 +89,56 @@
     <script src="blocks/NFBlock.js"></script>
     <script src="blocks/xargsBlock.js"></script>
 
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        fetch('/auth-token')
+          .then((response) => response.json())
+          .then((data) => {
+            const token = data.authToken;
+            const user = data.user;
+            if (token) {
+              // User is authenticated
+              document.getElementById('logoutButton').style.display =
+                'inline-block';
+              document
+                .getElementById('logoutButton')
+                .addEventListener('click', () => {
+                  document.getElementById('logoutForm').submit();
+                });
+              // document.getElementById('helloMessage').style.display = 'flex';
+              // document.getElementById('welcome').innerHTML =
+              //  `Welcome ${user.username} !`;
+              // Use the token as needed in your client-side JavaScript
+              console.log('Token:', token);
+            } else {
+              // User is not authenticated
+              document.getElementById('helloMessage').style.display = 'flex';
+              document.getElementById('loginButton').style.display =
+                'inline-block';
+              document
+                .getElementById('loginButton')
+                .addEventListener('click', () => {
+                  window.location.href = '/login'; // Redirect to login page
+                });
+              document.getElementById('registerButton').style.display =
+                'inline-block';
+              document
+                .getElementById('registerButton')
+                .addEventListener('click', () => {
+                  window.location.href = '/register'; // Redirect to register page
+                });
+              document.getElementById('logoutButton').style.display = 'none';
+            }
+          })
+          .catch((error) => {
+            console.error('Error fetching the token:', error);
+          });
+        document.getElementById('homePage').addEventListener('click', () => {
+          window.location.href = '/'; // Redirect to home page
+        });
+      });
+    </script>
+
     <!-- END OF BLOCK DEFINITION -->
 
     <link
@@ -65,195 +148,176 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div id="buttonContainer">
-      <button id="resetButton" class="icon-button" title="Reset Workspace">
-        <i class="fas fa-undo"></i>
-      </button>
-      <button id="executeButton" class="icon-button" title="Execute">
-        <i class="fas fa-play"></i>
-      </button>
+    <div id="navbar">
+      <div id="helloMessage">
+        <button id="homePage" class="icon-button" title="HomePage">
+          <i class="fas fa-home"></i>
+        </button>
+        <form id="homePageForm" action="/" method="POST" style="display: none">
+          <input type="hidden" name="_method" value="POST" />
+        </form>
+        <form
+          id="loginForm"
+          action="/login"
+          method="POST"
+          style="display: none"
+        >
+          <input type="hidden" name="_method" value="POST" />
+        </form>
+        <button
+          id="loginButton"
+          class="icon-button"
+          title="Login"
+          type="button"
+        >
+          <i class="fas fa-sign-in-alt"></i>
+        </button>
+        <form
+          id="registerForm"
+          action="/register"
+          method="POST"
+          style="display: none"
+        >
+          <input type="hidden" name="_method" value="POST" />
+        </form>
+        <button
+          id="registerButton"
+          class="icon-button"
+          title="Register"
+          type="button"
+        >
+          <i class="fas fa-user-plus"></i>
+        </button>
+      </div>
+      <div id="buttonContainer">
+        <form
+          id="logoutForm"
+          action="/logout"
+          method="DELETE"
+          style="display: none"
+        >
+          <input type="hidden" name="_method" value="DELETE" />
+        </form>
+
+        <button
+          id="logoutButton"
+          class="icon-button"
+          title="Sign Out"
+          type="button"
+          style="display: none"
+        >
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+
+        <button id="resetButton" class="icon-button" title="Reset Workspace">
+          <i class="fas fa-undo"></i>
+        </button>
+        <button id="executeButton" class="icon-button" title="Execute">
+          <i class="fas fa-play"></i>
+        </button>
+        <label for="themeDropdown"></label>
+        <select id="themeDropdown" class="icon-dropdown">
+          <option value="halloween">Classic Theme</option>
+          <option value="dark">Dark Theme</option>
+          <option value="tritanopia">Tritanopia</option>
+          <option value="dark-tritanopia">Dark Tritanopia</option>
+        </select>
+
+        <label for="languageDropdown"></label>
+        <select id="languageMenu" class="icon-dropdown">
+          <option value="en">English</option>
+          <option value="el">Ελληνικά</option>
+        </select>
+      </div>
     </div>
 
     <div id="blocklyArea">
       <div id="blocklyDiv"></div>
     </div>
-    <div id="resultsWrapper">
-      <div id="resultsArea">Results will appear here...</div>
+    <div id="resultsWrapper" style="background-color: #fff">
+      <div
+        id="resultsArea"
+        style="background-color: #fff; border: 1px solid #ddd"
+      >
+        Results will appear here...
+      </div>
       <button
         id="copyButton"
-        style="position: absolute; right: 10px; bottom: 21px"
+        style="
+          position: absolute;
+          right: 10px;
+          bottom: 21px;
+          background-color: #fff;
+        "
       >
         <img src="img/copy_icon.png" alt="copy" />
       </button>
     </div>
 
     <script>
-      var toolboxXML = `
-        <xml>
-            <category name="Text Processing" colour="#4CAF50">
-                <block type="head"></block>
-                <block type="tail"></block>
-                <block type="wc"></block>
-                <block type="sort"></block>
-                <block type="uniq"></block>
-                <block type="findDuplicates"></block>
-                <block type="showUniqs"></block>
-                <block type="cut"></block>
-                <block type="sed"></block>
-                <block type="echo"></block>
-            </category>
+      const baseBlockStyles = {
+        'Text Processing': {
+          colourPrimary: '#4CAF50',
+          colourSecondary: '#FFCDD2',
+          colourTertiary: '#CDB6E9'
+        },
+        'File inputs': {
+          colourPrimary: '#5C81A6',
+          colourSecondary: '#ff0000',
+          colourTertiary: '#C5EAFF'
+        },
+        'Data Processing': {
+          colourPrimary: '#3B7C09',
+          colourSecondary: '#ff0000',
+          colourTertiary: '#C5EAFF'
+        },
+        'File and Directory Operations': {
+          colourPrimary: '#FE9B13',
+          colourSecondary: '#ff0000',
+          colourTertiary: '#C5EAFF'
+        },
+        'I/O Redirection': {
+          colourPrimary: '#1976D2',
+          colourSecondary: '#ff0000',
+          colourTertiary: '#C5EAFF'
+        },
+        'Regular Expressions': {
+          colourPrimary: '#FF5733',
+          colourSecondary: '#ff0000',
+          colourTertiary: '#C5EAFF'
+        },
+        'Text output': {
+          colourPrimary: '#FF5733',
+          colourSecondary: '#ff0000',
+          colourTertiary: '#C5EAFF'
+        },
+        'Math - logic - loops': {
+          colourPrimary: '#D800FF',
+          colourSecondary: '#ff0000',
+          colourTertiary: '#C5EAFF'
+        }
+      };
 
-            <category name="File inputs" colour="#5C81A6">
-                <block type="filename"></block>
-                <block type="filenamesCreate"></block>
-                <block type="fileEndStart"></block>
-            </category>
-
-            <category name="File and Directory Operations" colour="#FE9B13">
-                <block type="ls"></block>
-                <block type="find"></block>
-                <block type="cd"></block>
-                <block type="mkdir"></block>
-                <block type="gzip"></block>
-                <block type="cat"></block>
-                <block type="touch"></block>
-            </category>
-
-            <category name="I/O Redirection" colour=#1976D2>
-                <block type="save"></block>
-                <block type="append"></block>
-                <block type="tee"></block>
-            </category>
-
-            <category name="Regular Expressions" colour="#FF5733">
-                <block type="regOutput"></block>
-                <block type="regPattern"></block>
-                <block type="regOr"></block>
-                <block type="regNegation"></block>
-                <block type="regCapturingGroup"></block>
-                <block type="regStart"></block>
-                <block type="regEnd"></block>
-                <block type="regFor"></block>
-                <block type="regRange"></block>
-                <block type="regQuant"></block>
-                <block type="regAnyOne"></block>
-                <block type="regLookahead"></block>
-                <block type="regCommon"></block>
-            </category>
-
-            <category name="Data Processing" colour="#3B7C09">
-                <block type="beginEnd"></block>
-                <block type="awk"></block>
-				<block type="condOutput"></block>
-                <block type="column"></block>
-                <block type="grep"></block>
-                <block type="NR"></block>
-                <block type="NF"></block>
-                <block type="xargs"></block>
-
-                <category name="Text output" colour="160">
-                    <block type="text"></block>
-                    <block type="text_print">
-                        <value name="TEXT">
-                        <shadow type="text">
-                            <field name="TEXT">abc</field>
-                        </shadow>
-                        </value>
-                    </block>
-                    <block type="multiplePrint"></block>
-                </category>
-
-                <category name="Logic" colour="210">
-                    <block type="controls_if"></block>
-                    <block type="logic_compare"></block>
-                    <block type="logic_operation"></block>
-                    <block type="logic_negate"></block>
-                </category>
-
-                <category name="Loops" colour="120">
-                    <block type="controls_whileUntil"></block>
-                    <block type="controls_forEach"></block>
-                </category>
-
-                <category name="Math" colour="230">
-                    <block type="math_number"></block>
-                    <block type="math_arithmetic">
-                        <value name="A">
-                        <shadow type="math_number">
-                            <field name="NUM">1</field>
-                        </shadow>
-                        </value>
-                        <value name="B">
-                        <shadow type="math_number">
-                            <field name="NUM">1</field>
-                        </shadow>
-                        </value>
-                    </block>
-                </category>
-            </category>
-
-            <category name="Variables" colour="330" custom="VARIABLE"></category>
-</xml>`;
-
+      // Create the Halloween theme using the base block styles
       Blockly.Themes.Halloween = Blockly.Theme.defineTheme('halloween', {
         base: Blockly.Themes.Classic,
-        // 'categoryStyles': {
+        blockStyles: baseBlockStyles
+        // Uncomment and modify the following lines if categoryStyles or componentStyles are needed
+        // categoryStyles: {
         //     'I/O Redirection': {
-        //     'colour': "#FE9B13"
-        //     }},
+        //         'colour': "#FE9B13"
+        //     },
         //     'logic_category': {
-        //     'colour': "#8b4513",
+        //         'colour': "#8b4513",
         //     },
         //     'loop_category': {
-        //     'colour': "#85E21F",
+        //         'colour': "#85E21F",
         //     },
         //     'text_category': {
-        //     'colour': "#FE9B13",
+        //         'colour': "#FE9B13",
         //     },
         // },
-        blockStyles: {
-          'Text Processing': {
-            colourPrimary: '#4CAF50',
-            colourSecondary: '#FFCDD2',
-            colourTertiary: '#CDB6E9',
-          },
-          'File inputs': {
-            colourPrimary: '#5C81A6',
-            colourSecondary: '#ff0000',
-            colourTertiary: '#C5EAFF',
-          },
-          'Data Processing': {
-            colourPrimary: '#3B7C09',
-            colourSecondary: '#ff0000',
-            colourTertiary: '#C5EAFF',
-          },
-          'File and Directory Operations': {
-            colourPrimary: '#FE9B13',
-            colourSecondary: '#ff0000',
-            colourTertiary: '#C5EAFF',
-          },
-          'I/O Redirection': {
-            colourPrimary: '#1976D2',
-            colourSecondary: '#ff0000',
-            colourTertiary: '#C5EAFF',
-          },
-          'Regular Expressions': {
-            colourPrimary: '#FF5733',
-            colourSecondary: '#ff0000',
-            colourTertiary: '#C5EAFF',
-          },
-          'Text output': {
-            colourPrimary: '#FF5733',
-            colourSecondary: '#ff0000',
-            colourTertiary: '#C5EAFF',
-          },
-          'Math - logic - loops': {
-            colourPrimary: '#D800FF',
-            colourSecondary: '#ff0000',
-            colourTertiary: '#C5EAFF',
-          },
-        },
-        // 'componentStyles': {
+        // componentStyles: {
         //     'workspaceBackgroundColour': '#ff7518',
         //     'toolboxBackgroundColour': '#F9C10E',
         //     'toolboxForegroundColour': '#fff',
@@ -269,19 +333,658 @@
         // }
       });
 
+      // Create the Dark theme using the base block styles and adding dark-specific properties
+      Blockly.Themes.Dark = Blockly.Theme.defineTheme('dark', {
+        base: Blockly.Themes.Classic,
+        componentStyles: {
+          workspaceBackgroundColour: '#1e1e1e',
+          toolboxBackgroundColour: 'blackBackground',
+          toolboxForegroundColour: '#fff',
+          flyoutBackgroundColour: '#252526',
+          flyoutForegroundColour: '#ccc',
+          flyoutOpacity: 1,
+          scrollbarColour: '#797979',
+          insertionMarkerColour: '#fff',
+          insertionMarkerOpacity: 0.3,
+          scrollbarOpacity: 0.4,
+          cursorColour: '#d0d0d0',
+          blackBackground: '#333'
+        },
+        blockStyles: baseBlockStyles
+      });
+
+      const tritanopiaThemeConfig = {
+        base: Blockly.Themes.Classic,
+        blockStyles: {
+          'Text Processing': {
+            colourPrimary: '#0D3B66',
+            colourSecondary: '#0D3B66',
+            colourTertiary: '#0D3B66'
+          },
+          'File inputs': {
+            colourPrimary: '#00A896',
+            colourSecondary: '#00A896',
+            colourTertiary: '#00A896'
+          },
+          'Data Processing': {
+            colourPrimary: '#8D6B3D',
+            colourSecondary: '#8D6B3D',
+            colourTertiary: '#8D6B3D'
+          },
+          Logic: {
+            colourPrimary: '#6A994E',
+            colourSecondary: '#6A994E',
+            colourTertiary: '#6A994E'
+          },
+          Loops: {
+            colourPrimary: '#B5838D',
+            colourSecondary: '#B5838D',
+            colourTertiary: '#B5838D'
+          },
+          Math: {
+            colourPrimary: '#6D597A',
+            colourSecondary: '#6D597A',
+            colourTertiary: '#6D597A'
+          },
+          'File and Directory Operations': {
+            colourPrimary: '#F25C05',
+            colourSecondary: '#F25C05',
+            colourTertiary: '#F25C05'
+          },
+          'I/O Redirection': {
+            colourPrimary: '#D62828',
+            colourSecondary: '#D62828',
+            colourTertiary: '#D62828'
+          },
+          'Regular Expressions': {
+            colourPrimary: '#83C5BE',
+            colourSecondary: '#83C5BE',
+            colourTertiary: '#83C5BE'
+          },
+          'System Monitoring': {
+            colourPrimary: '#E9C46A',
+            colourSecondary: '#E9C46A',
+            colourTertiary: '#E9C46A'
+          },
+          'Network Operations': {
+            colourPrimary: '#4A4A4A',
+            colourSecondary: '#4A4A4A',
+            colourTertiary: '#4A4A4A'
+          },
+          'Text output': {
+            colourPrimary: '#2A9D8F',
+            colourSecondary: '#2A9D8F',
+            colourTertiary: '#2A9D8F'
+          },
+          Variables: {
+            colourPrimary: '#E63946',
+            colourSecondary: '#E63946',
+            colourTertiary: '#E63946'
+          },
+          'Other Commands': {
+            colourPrimary: '#7D7D7D',
+            colourSecondary: '#7D7D7D',
+            colourTertiary: '#7D7D7D'
+          }
+        }
+      };
+
+      // Create the Tritanopia theme using the base configuration
+      Blockly.Themes.Tritanopia = Blockly.Theme.defineTheme(
+        'tritanopia',
+        tritanopiaThemeConfig
+      );
+
+      // Create the DarkTritanopia theme using the base configuration and adding dark-specific properties
+      const darkTritanopiaConfig = {
+        ...tritanopiaThemeConfig,
+        componentStyles: {
+          workspaceBackgroundColour: '#1e1e1e',
+          toolboxBackgroundColour: 'blackBackground',
+          toolboxForegroundColour: '#fff',
+          flyoutBackgroundColour: '#252526',
+          flyoutForegroundColour: '#ccc',
+          flyoutOpacity: 1,
+          scrollbarColour: '#797979',
+          insertionMarkerColour: '#fff',
+          insertionMarkerOpacity: 0.3,
+          scrollbarOpacity: 0.4,
+          cursorColour: '#d0d0d0',
+          blackBackground: '#333'
+        }
+      };
+
+      Blockly.Themes.DarkTritanopia = Blockly.Theme.defineTheme(
+        'dark-tritanopia',
+        darkTritanopiaConfig
+      );
+
+      const toolboxCategories = {
+        kind: 'categoryToolbox',
+        contents: [
+          {
+            kind: 'category',
+            name: 'Text Processing',
+            colour: '#4CAF50',
+            contents: [
+              { kind: 'block', type: 'head' },
+              { kind: 'block', type: 'tail' },
+              { kind: 'block', type: 'wc' },
+              { kind: 'block', type: 'sort' },
+              { kind: 'block', type: 'uniq' },
+              { kind: 'block', type: 'findDuplicates' },
+              { kind: 'block', type: 'showUniqs' },
+              { kind: 'block', type: 'cut' },
+              { kind: 'block', type: 'sed' },
+              { kind: 'block', type: 'echo' }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'File inputs',
+            colour: '#5C81A6',
+            contents: [
+              { kind: 'block', type: 'filename' },
+              { kind: 'block', type: 'filenamesCreate' },
+              { kind: 'block', type: 'fileEndStart' }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'File and Directory Operations',
+            colour: '#FE9B13',
+            contents: [
+              { kind: 'block', type: 'ls' },
+              { kind: 'block', type: 'find' },
+              { kind: 'block', type: 'cd' },
+              { kind: 'block', type: 'mkdir' },
+              { kind: 'block', type: 'gzip' },
+              { kind: 'block', type: 'cat' },
+              { kind: 'block', type: 'touch' },
+              { kind: 'block', type: 'chmod' },
+              { kind: 'block', type: 'chown' },
+              { kind: 'block', type: 'ln' },
+              { kind: 'block', type: 'mv' },
+              { kind: 'block', type: 'cp' },
+              { kind: 'block', type: 'rm' },
+              { kind: 'block', type: 'tar' },
+              { kind: 'block', type: 'unzip' }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'I/O Redirection',
+            colour: '#1976D2',
+            contents: [
+              { kind: 'block', type: 'save' },
+              { kind: 'block', type: 'append' },
+              { kind: 'block', type: 'tee' }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'Regular Expressions',
+            colour: '#FF5733',
+            contents: [
+              { kind: 'block', type: 'regOutput' },
+              { kind: 'block', type: 'regPattern' },
+              { kind: 'block', type: 'regOr' },
+              { kind: 'block', type: 'regNegation' },
+              { kind: 'block', type: 'regCapturingGroup' },
+              { kind: 'block', type: 'regStart' },
+              { kind: 'block', type: 'regEnd' },
+              { kind: 'block', type: 'regFor' },
+              { kind: 'block', type: 'regRange' },
+              { kind: 'block', type: 'regQuant' },
+              { kind: 'block', type: 'regAnyOne' },
+              { kind: 'block', type: 'regLookahead' },
+              { kind: 'block', type: 'regCommon' }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'System Monitoring',
+            colour: '#9C27B0',
+            contents: [
+              { kind: 'block', type: 'ps' },
+              { kind: 'block', type: 'df' },
+              { kind: 'block', type: 'du' },
+              { kind: 'block', type: 'uptime' },
+              { kind: 'block', type: 'who' },
+              { kind: 'block', type: 'hostname' },
+              { kind: 'block', type: 'date' }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'Network Operations',
+            colour: '#FFC107',
+            contents: [
+              { kind: 'block', type: 'scp' },
+              { kind: 'block', type: 'ssh' },
+              { kind: 'block', type: 'curl' },
+              { kind: 'block', type: 'ping' },
+              { kind: 'block', type: 'journalctl' }
+            ]
+          },
+
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'Data Processing',
+            colour: '#3B7C09',
+            contents: [
+              { kind: 'block', type: 'beginEnd' },
+              { kind: 'block', type: 'awk' },
+              { kind: 'block', type: 'condOutput' },
+              { kind: 'block', type: 'column' },
+              { kind: 'block', type: 'grep' },
+              { kind: 'block', type: 'NR' },
+              { kind: 'block', type: 'NF' },
+              { kind: 'block', type: 'xargs' },
+              {
+                kind: 'category',
+                name: 'Text output',
+                colour: '160',
+                contents: [
+                  { kind: 'block', type: 'text' },
+                  {
+                    kind: 'block',
+                    type: 'text_print',
+                    inputs: {
+                      TEXT: {
+                        shadow: {
+                          type: 'text',
+                          fields: {
+                            TEXT: 'abc'
+                          }
+                        }
+                      }
+                    }
+                  },
+                  { kind: 'block', type: 'multiplePrint' }
+                ]
+              },
+              {
+                kind: 'category',
+                name: 'Logic',
+                colour: '210',
+                contents: [
+                  { kind: 'block', type: 'controls_if' },
+                  { kind: 'block', type: 'logic_compare' },
+                  { kind: 'block', type: 'logic_operation' },
+                  { kind: 'block', type: 'logic_negate' }
+                ]
+              },
+              {
+                kind: 'category',
+                name: 'Loops',
+                colour: '120',
+                contents: [
+                  { kind: 'block', type: 'controls_whileUntil' },
+                  { kind: 'block', type: 'controls_forEach' }
+                ]
+              },
+              {
+                kind: 'category',
+                name: 'Math',
+                colour: '230',
+                contents: [
+                  { kind: 'block', type: 'math_number' },
+                  {
+                    kind: 'block',
+                    type: 'math_arithmetic',
+                    inputs: {
+                      A: {
+                        shadow: {
+                          type: 'math_number',
+                          fields: {
+                            NUM: 1
+                          }
+                        }
+                      },
+                      B: {
+                        shadow: {
+                          type: 'math_number',
+                          fields: {
+                            NUM: 1
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'Variables',
+            colour: '330',
+            custom: 'VARIABLE'
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'Other Commands',
+            colour: '#009688',
+            contents: [
+              { kind: 'block', type: 'kill' },
+              { kind: 'block', type: 'echo' },
+              { kind: 'block', type: 'sleep' }
+            ]
+          },
+
+          {
+            kind: 'search',
+            name: 'Search',
+            contents: []
+          }
+        ]
+      };
+
+      const toolboxCategories2 = {
+        kind: 'categoryToolbox',
+        contents: [
+          {
+            kind: 'category',
+            name: 'Text Processing',
+            colour: '#0D3B66',
+            contents: [
+              { kind: 'block', type: 'head' },
+              { kind: 'block', type: 'tail' },
+              { kind: 'block', type: 'wc' },
+              { kind: 'block', type: 'sort' },
+              { kind: 'block', type: 'uniq' },
+              { kind: 'block', type: 'findDuplicates' },
+              { kind: 'block', type: 'showUniqs' },
+              { kind: 'block', type: 'cut' },
+              { kind: 'block', type: 'sed' },
+              { kind: 'block', type: 'echo' }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'File inputs',
+            colour: '#00A896',
+            contents: [
+              { kind: 'block', type: 'filename' },
+              { kind: 'block', type: 'filenamesCreate' },
+              { kind: 'block', type: 'fileEndStart' }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'File and Directory Operations',
+            colour: '#F25C05',
+            contents: [
+              { kind: 'block', type: 'ls' },
+              { kind: 'block', type: 'find' },
+              { kind: 'block', type: 'cd' },
+              { kind: 'block', type: 'mkdir' },
+              { kind: 'block', type: 'gzip' },
+              { kind: 'block', type: 'cat' },
+              { kind: 'block', type: 'touch' },
+              { kind: 'block', type: 'chmod' },
+              { kind: 'block', type: 'chown' },
+              { kind: 'block', type: 'ln' },
+              { kind: 'block', type: 'mv' },
+              { kind: 'block', type: 'cp' },
+              { kind: 'block', type: 'rm' },
+              { kind: 'block', type: 'tar' },
+              { kind: 'block', type: 'unzip' }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'I/O Redirection',
+            colour: '#D62828',
+            contents: [
+              { kind: 'block', type: 'save' },
+              { kind: 'block', type: 'append' },
+              { kind: 'block', type: 'tee' }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'Regular Expressions',
+            colour: '#83C5BE',
+            contents: [
+              { kind: 'block', type: 'regOutput' },
+              { kind: 'block', type: 'regPattern' },
+              { kind: 'block', type: 'regOr' },
+              { kind: 'block', type: 'regNegation' },
+              { kind: 'block', type: 'regCapturingGroup' },
+              { kind: 'block', type: 'regStart' },
+              { kind: 'block', type: 'regEnd' },
+              { kind: 'block', type: 'regFor' },
+              { kind: 'block', type: 'regRange' },
+              { kind: 'block', type: 'regQuant' },
+              { kind: 'block', type: 'regAnyOne' },
+              { kind: 'block', type: 'regLookahead' },
+              { kind: 'block', type: 'regCommon' }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'System Monitoring',
+            colour: '#E9C46A',
+            contents: [
+              { kind: 'block', type: 'ps' },
+              { kind: 'block', type: 'df' },
+              { kind: 'block', type: 'du' },
+              { kind: 'block', type: 'uptime' },
+              { kind: 'block', type: 'who' },
+              { kind: 'block', type: 'hostname' },
+              { kind: 'block', type: 'date' }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'Network Operations',
+            colour: '#4A4A4A',
+            contents: [
+              { kind: 'block', type: 'scp' },
+              { kind: 'block', type: 'ssh' },
+              { kind: 'block', type: 'curl' },
+              { kind: 'block', type: 'ping' },
+              { kind: 'block', type: 'journalctl' }
+            ]
+          },
+
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'Data Processing',
+            colour: '#8D6B3D',
+            contents: [
+              { kind: 'block', type: 'beginEnd' },
+              { kind: 'block', type: 'awk' },
+              { kind: 'block', type: 'condOutput' },
+              { kind: 'block', type: 'column' },
+              { kind: 'block', type: 'grep' },
+              { kind: 'block', type: 'NR' },
+              { kind: 'block', type: 'NF' },
+              { kind: 'block', type: 'xargs' },
+              {
+                kind: 'category',
+                name: 'Text output',
+                colour: '#2A9D8F',
+                contents: [
+                  { kind: 'block', type: 'text' },
+                  {
+                    kind: 'block',
+                    type: 'text_print',
+                    inputs: {
+                      TEXT: {
+                        shadow: {
+                          type: 'text',
+                          fields: {
+                            TEXT: 'abc'
+                          }
+                        }
+                      }
+                    }
+                  },
+                  { kind: 'block', type: 'multiplePrint' }
+                ]
+              },
+              {
+                kind: 'category',
+                name: 'Logic',
+                colour: '#6A994E',
+                contents: [
+                  { kind: 'block', type: 'controls_if' },
+                  { kind: 'block', type: 'logic_compare' },
+                  { kind: 'block', type: 'logic_operation' },
+                  { kind: 'block', type: 'logic_negate' }
+                ]
+              },
+              {
+                kind: 'category',
+                name: 'Loops',
+                colour: '#B5838D',
+                contents: [
+                  { kind: 'block', type: 'controls_whileUntil' },
+                  { kind: 'block', type: 'controls_forEach' }
+                ]
+              },
+              {
+                kind: 'category',
+                name: 'Math',
+                colour: '#6D597A',
+                contents: [
+                  { kind: 'block', type: 'math_number' },
+                  {
+                    kind: 'block',
+                    type: 'math_arithmetic',
+                    inputs: {
+                      A: {
+                        shadow: {
+                          type: 'math_number',
+                          fields: {
+                            NUM: 1
+                          }
+                        }
+                      },
+                      B: {
+                        shadow: {
+                          type: 'math_number',
+                          fields: {
+                            NUM: 1
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'Variables',
+            colour: '#E63946',
+            custom: 'VARIABLE'
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'Other Commands',
+            colour: '#7D7D7D',
+            contents: [
+              { kind: 'block', type: 'kill' },
+              { kind: 'block', type: 'echo' },
+              { kind: 'block', type: 'sleep' }
+            ]
+          },
+
+          {
+            kind: 'search',
+            name: 'Search',
+            contents: []
+          }
+        ]
+      };
+
+      /*
+      const toolbox = { ...toolboxCategories };
+      toolbox.contents.push({
+        kind: 'search',
+        name: 'search',
+        contents: []
+      });
+      */
+
       var workspace = Blockly.inject('blocklyDiv', {
         // renderer : 'Zelos',
-        toolbox: toolboxXML,
+        toolbox: toolboxCategories,
         theme: Blockly.Themes.Halloween,
         trashcan: true,
         collapse: true,
         comments: true,
         disable: true,
         maxBlocks: Infinity,
+        grid: {
+          spacing: 20,
+          length: 1,
+          colour: '#ccc',
+          snap: true
+        },
         move: {
           scrollbars: true, // Enables or disables scrollbars on the workspace
           drag: true, // Allows workspace to be moved (dragged) with the mouse
-          wheel: true, // Enables or disables scrolling with the mouse wheel
+          wheel: true // Enables or disables scrolling with the mouse wheel
         },
         zoom: {
           controls: true,
@@ -289,9 +992,117 @@
           startScale: 1,
           maxScale: 3,
           minScale: 0.3,
-          scaleSpeed: 1.2,
+          scaleSpeed: 1.2
         },
+
+        plugins: {
+          blockDragger: ScrollBlockDragger,
+          metricsManager: ScrollMetricsManager
+        }
       });
+
+      /*
+      const savedState = localStorage.getItem('blocklyWorkspace');
+      if (savedState) {
+          const state = JSON.parse(savedState);
+          workspace.clear(); // Clear the workspace before loading the saved state
+          Blockly.serialization.workspaces.load(state, workspace);
+      }
+
+      // Save the state when the window is unloaded
+      window.addEventListener('unload', () => {
+          const state = Blockly.serialization.workspaces.save(workspace);
+          workspace.clear();
+          localStorage.setItem('blocklyWorkspace', JSON.stringify(state));
+      });
+      */
+
+      const backpackOptions = {
+        allowEmptyBackpackOpen: false,
+        useFilledBackpackImage: true,
+        skipSerializerRegistration: false,
+        contextMenu: {
+          emptyBackpack: true,
+          removeFromBackpack: true,
+          copyToBackpack: true,
+          copyAllToBackpack: true,
+          pasteAllToBackpack: true,
+          disablePreconditionChecks: false
+        }
+      };
+
+      const backpack = new Backpack(workspace, backpackOptions);
+      backpack.init();
+
+      const plugin = new ScrollOptions(workspace);
+      plugin.init();
+
+      const minimap = new Minimap(workspace);
+      minimap.init();
+
+      const crossTabCopyPasteOptions = {
+        contextMenu: true,
+        shortcut: true
+      };
+
+      const crossTabCopyPaste = new CrossTabCopyPaste();
+      crossTabCopyPaste.init(crossTabCopyPasteOptions, () => {
+        console.log(
+          'Use this error callback to handle TypeError while pasting'
+        );
+      });
+
+      // Optional: Remove the duplication command from Blockly's context menu
+      Blockly.ContextMenuRegistry.registry.unregister('blockDuplicate');
+
+      // Optional: Change the position of the menu items added to the context menu
+      Blockly.ContextMenuRegistry.registry.getItem(
+        'blockCopyToStorage'
+      ).weight = 2;
+      Blockly.ContextMenuRegistry.registry.getItem(
+        'blockPasteFromStorage'
+      ).weight = 3;
+
+      document
+        .getElementById('themeDropdown')
+        .addEventListener('change', function (event) {
+          var selectedTheme = this.value;
+          var navbarContainer = document.getElementById('navbar');
+          var resultsWrapperContainer =
+            document.getElementById('resultsWrapper');
+          var resultsAreaContainer = document.getElementById('resultsArea');
+          var copyButton = document.getElementById('copyButton');
+          if (selectedTheme === 'halloween' || selectedTheme === 'tritanopia') {
+            if (selectedTheme === 'halloween') {
+              workspace.updateToolbox(toolboxCategories);
+              workspace.setTheme(Blockly.Themes.Halloween);
+            } else {
+              workspace.updateToolbox(toolboxCategories2);
+              workspace.setTheme(Blockly.Themes.Tritanopia);
+            }
+            navbarContainer.style.backgroundColor = '#f5f5f5';
+            resultsWrapperContainer.style.backgroundColor = '#fff';
+            resultsAreaContainer.style.backgroundColor = '#fff';
+            resultsAreaContainer.style.color = '#000';
+          } else if (
+            selectedTheme === 'dark' ||
+            selectedTheme === 'dark-tritanopia'
+          ) {
+            if (selectedTheme === 'dark') {
+              workspace.updateToolbox(toolboxCategories);
+              workspace.setTheme(Blockly.Themes.Dark);
+            } else {
+              workspace.updateToolbox(toolboxCategories2);
+              workspace.setTheme(Blockly.Themes.DarkTritanopia);
+            }
+            navbarContainer.style.backgroundColor = '#252526';
+            resultsWrapperContainer.style.backgroundColor = '#252526';
+            resultsAreaContainer.style.backgroundColor = '#252526';
+            resultsAreaContainer.style.color = '#fff';
+            resultsAreaContainer.style.border = '1px solid #ddd';
+            copyButton.style.backgroundColor = '#fff';
+          }
+        });
     </script>
     <script src="main.js"></script>
   </body>

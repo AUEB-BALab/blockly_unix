@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Raleway', sans-serif;
+  color: #fff;
+}
+
+#container-login,
+#container-register {
+  background-color: #fff;
+  position: relative;
+  margin: auto;
+  margin-top: 2%;
+  width: 50%;
+  padding: 20px;
+  border-radius: 0.35em;
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+#title {
+  background-color: #2041f7;
+  padding: 20px;
+  border-top-left-radius: 0.22em;
+  border-top-right-radius: 0.22em;
+  font-size: 22px;
+  color: #fff;
+  margin: -20px -20px 20px -20px;
+}
+
+.lock {
+  vertical-align: middle;
+}
+
+.input {
+  margin: auto;
+  width: 240px;
+  border-radius: 4px;
+  background-color: #ededed;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.input-addon {
+  background-color: #ededed;
+  border: 1px solid #ededed;
+  padding: 4px 8px;
+  color: #000;
+  border-right: 1px solid #757575;
+  display: flex;
+  align-items: center;
+}
+
+input[type='text'],
+input[type='password'],
+input[type='email'] {
+  color: #000;
+  margin: 0;
+  background-color: #ededed;
+  border: 1px solid #ededed;
+  padding: 6px 10px;
+  border-radius: 0 4px 4px 0;
+  flex: 1;
+}
+
+input[type='submit'] {
+  padding: 6px 20px;
+  background: #2041f7;
+  color: #fff;
+  margin-top: 2%;
+  font-weight: bold;
+  border: 0 none;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.register {
+  padding: 16px 0;
+  text-align: center;
+  margin-top: 40px;
+  border-top: 1px solid #c1c3c6;
+}
+
+.remember-me {
+  margin: 10px 0;
+  text-align: left;
+  width: 240px;
+  margin: 15px auto 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+input[type='checkbox'] {
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.clearfix {
+  clear: both;
+}
+
+#register-link {
+  margin-top: 10px;
+  margin-left: 2%;
+  padding: 6px 20px;
+  background: #2041f7;
+  color: #fff;
+  font-weight: bold;
+  border: 0 none;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.loginRegisterSpan {
+  font-size: medium;
+  color: #000;
+  font-weight: normal;
+}

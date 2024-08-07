@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockly Unix</title>
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Link to custom CSS -->
+    <link rel="stylesheet" href="homePage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        fetch('/auth-token')
+          .then((response) => response.json())
+          .then((data) => {
+            const token = data.authToken;
+            const user = data.user;
+            if (!token) {
+              // User is authenticated
+              document.getElementById('loginHomePageButton').style.display = 'block';
+              document.getElementById('registerHomePageButton').style.display = 'block';
+              document.getElementById('registerSecondButtonHomePage').style.display = 'inline-block';
+              document.getElementById('getStartedButton').style.display = 'inline-block';
+              console.log('Token:', token);
+            } else {
+              document.getElementById('continueWithBlocklyButton').style.display = 'block';
+              document.getElementById('logoutHomePageButton').style.display = 'block';
+              document
+                .getElementById('logoutHomePageButton')
+                .addEventListener('click', () => {
+                  event.preventDefault();
+                  document.getElementById('logoutForm').submit();
+                });
+            }
+          })
+          .catch((error) => {
+            console.error('Error fetching the token:', error);
+          });
+      });
+    </script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <span class="navbar-brand d-flex align-items-center">
+                <img src="img/blockly_72.png" alt=""  class="me-2">
+                Blockly Unix
+            </span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/blockly_unix">Blockly</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/tutorials">Tutorials</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="/login" class="btn btn-primary me-2" id="loginHomePageButton" style="display: none;">Login</a>
+                    <a href="/register" class="btn btn-outline-primary me-2" id="registerHomePageButton" style="display: none;">Register</a>
+                    <!--
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-primary" type="submit">Search</button>
+                    </form>
+                    -->
+                </div>
+                <div class="d-flex align-items-center">
+                  <a href="/blockly_unix" class="btn btn-primary me-2" id="continueWithBlocklyButton" style="display: none;">Continue Where You Left Off</a>
+                  <a href="/" class="btn btn-outline-primary me-2" id="logoutHomePageButton" style="display: none;">Logout</a>
+                  <form id="logoutForm" action="/logout" method="DELETE" style="display: none;">
+                    <input type="hidden" name="_method" value="DELETE" />
+                  </form>
+              </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ======= Hero Section ======= -->
+    <section id="hero">
+
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg- d-flex flex-column justify-content-center" data-aos="fade-up">
+              <div>
+                <h1>Powerful <span class="highlight">coding</span>,  block by block</h1>
+                <h2>Blockly is a visual programming editor by Google that uses drag-and-drop blocks. It’s the engine that powers the most popular coding education programs world wide.</h2>
+                <a href="/blockly_unix" class="btn-get-started scrollto" id="getStartedButton" style="display: none;">Get Started</a>
+                <a href="/register" id="registerSecondButtonHomePage" class="btn-get-login" style="display: none;">Register</a>
+              </div>
+            </div>
+            <div class="col-lg-10 order-2 order-lg-2 hero-img" data-aos="fade-left">
+              <img src="assets/img/hero-img.png" class="img-fluid" alt="">
+            </div>
+          </div>
+        </div>
+    
+      </section><!-- End Hero -->
+      
+
+        <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+        <div class="container">
+  
+            <div class="row align-items-center"> 
+            <div class="col-lg-6" data-aos="zoom-in">
+              <img src="https://developers.google.com/static/blockly/images/landing/web_856.png" class="img-fluid" alt="">
+            </div>
+            <div class="col-lg-6 d-flex flex-column justify-contents-center" data-aos="fade-left">
+              <div class="content pt-6 pt-lg-4">
+                <h3>Blockly for Web</h3>
+                <p class="fst-italic">
+        
+                </p>
+                <ul>
+                  <li><i class="bi bi-check-circle"></i> Blockly is 100% client side</li>
+                  <li><i class="bi bi-check-circle"></i> No server side dependencies</li>
+                  <li><i class="bi bi-check-circle"></i> Compatible with all major browsers</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </section><!-- End About Section -->
+
+    <!-- Main Content -->
+    <main class="flex-fill d-flex align-items-center">
+        <div class="container ">
+            <div class="row h-100">
+               
+                    <div class="text-center">
+                        <div class="text-center">
+                            <h1 >Create Your Unix Pipelines with Blockly Unix</h1>
+                            <p class="lead">Creating Unix pipelines has never been easier!</p>
+                        </div>
+                        <!-- Image Container -->
+                        <div class="image-container">
+                            <img src="img/blockly_photo.png" alt="Blockly Unix" class="img-fluid" style="width: 700px; height: auto;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </main>
+ <br>
+ <br>
+<!-- ======= Services Section ======= -->
+<section id="services" class="services section-bg">
+    <div class="container">
+
+      <div class="section-title text-center" data-aos="fade-up">
+        <h1>Why Blockly Unix</h1>
+        <br>
+        <p>Blockly is the preferred choice for platforms aiming to deliver versatile and intuitive programming experiences</p>
+      </div>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in">
+          <div class="icon-box icon-box-pink">
+            <div class="icon">
+              <img src="https://developers.google.com/static/blockly/images/icons/robust-library_72.png" alt="Lorem Ipsum"  style="width: 50px; height: 50px;"/>
+            </div>
+            <h4 class="title"><a href="">Interactive Tutorials</a></h4>
+            <p class="description">Learn and get started quickly with interactive tutorials and guided walkthroughs.</p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="100">
+          <div class="icon-box icon-box-cyan">
+            <div class="icon"><i class="bx bx-file"></i></div>
+            <img src="https://developers.google.com/static/blockly/images/icons/visual-interface_72.png" alt="Lorem Ipsum"  style="width: 50px; height: 50px;"/>
+            <h4 class="title"><a href="">Visual Programming</a></h4>
+            <p class="description">Use a drag-and-drop interface to build complex pipelines effortlessly.</p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200">
+          <div class="icon-box icon-box-green">
+            <div class="icon"><i class="bx bx-tachometer"></i></div>
+            <img src="https://developers.google.com/static/blockly/images/icons/cross-platform.png" alt="Lorem Ipsum"  style="width: 50px; height: 50px;"/>
+            <h4 class="title"><a href="">Cross-platform</a></h4>
+            <p class="description">A platform-agnostic library, Blockly is preferred by coding platforms seeking consistency, flexibility and convenience.</p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="300">
+          <div class="icon-box icon-box-blue">
+            <div class="icon"><i class="bx bx-world"></i></div>
+            <img src="https://developers.google.com/static/blockly/images/icons/codelabs.svg" alt="Lorem Ipsum"  style="width: 50px; height: 50px;"/>
+            <h4 class="title"><a href="">Visual interface</a></h4>
+            <p class="description">The Blockly editor uses interlocking, graphical blocks to represent code concepts like variables, logical expressions, loops, and more. </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section><!-- End Services Section -->
+  <br>
+ <!-- ======= F.A.Q Section ======= -->
+ <section id="faq" class="faq">
+    <div class="container">
+
+      <div class="section-title text-center" data-aos="fade-up">
+        <h1>Frequently Asked Questions</h1>
+      </div>
+
+      <ul class="faq-list ">
+
+        <li>
+          <div data-bs-toggle="collapse" class="collapsed question" href="#faq1">Who is Blockly for? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+          <div id="faq1" class="collapse" data-bs-parent=".faq-list">
+            <p>
+                If you are a teacher or student interested in block-based coding, you should check out a lesson through an educational product built on Blockly, such as CS First, Code.org, or Scratch.
+            </p>
+          </div>
+        </li>
+
+        <li>
+          <div data-bs-toggle="collapse" href="#faq2" class="collapsed question">What are some of the benefits of block-based coding? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+          <div id="faq2" class="collapse" data-bs-parent=".faq-list">
+            <p>
+                Block-based coding allows users to apply programming principles without having to worry about syntax or the intimidation of a blinking cursor on the command line, making the learning curve for aspiring programmers easier. By reducing the need to learn syntax, block-based coding allows users to focus entirely on the logic behind conditionals, loops, variables and other core concepts without worrying about unbalanced parenthesis or missing semicolons.            </p>
+          </div>
+        </li>
+
+        <li>
+          <div data-bs-toggle="collapse" href="#faq3" class="collapsed question">What is Block-Based Coding? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+          <div id="faq3" class="collapse" data-bs-parent=".faq-list">
+            <p>
+                Block-based coding is a visual programming language where code is represented by blocks. These blocks fit together like puzzle pieces, making it intuitive for beginners to create programs by snapping together pre-defined code blocks. This approach helps users focus on logic and structure rather than syntax​
+            </p>
+          </div>
+        </li>
+
+        <li>
+          <div data-bs-toggle="collapse" href="#faq4" class="collapsed question">Are There Any Online Resources for Learning Block-Based Programming? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+          <div id="faq4" class="collapse" data-bs-parent=".faq-list">
+            <p>
+                Yes, there are several excellent online resources for learning block-based programming:
+
+                Code.org: Offers a wide range of free courses and activities.
+                Scratch: Developed by MIT, it provides a free platform for creating animations and games.
+                Tynker: Offers interactive coding activities and puzzles for kids, catering to different age groups and skill levels​
+          </div>
+        </li>
+      </ul>
+
+    </div>
+  </section><!-- End Frequently Asked Questions Section -->
+
+  
+      <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-info">
+              <h3>Blockly Unix</h3>
+              <p>
+                 <br>
+                 76 Patison Street, Athens<br><br>
+                <strong>Phone:</strong> +30 697 5548 855<br>
+                <strong>Email:</strong> blocklyunix@aueb.gr<br>
+              </p>
+              <div class="social-links mt-3">
+                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Blockly</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Tutorials</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Github</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#"></a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-4 col-md-6 footer-newsletter">
+            <h4>Our Newsletter</h4>
+            <p>Subscribe to our newsletter to receive the latest news, updates, and special offers directly in your inbox.</p>
+            <form action="" method="post">
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>BALab</strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/scaffold-bootstrap-metro-style-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
