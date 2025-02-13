@@ -5,3 +5,6 @@ npm-debug.log
 .history
 bin/pre-commit
 .idea
+db/*.db
+output.log
+.npmrc
