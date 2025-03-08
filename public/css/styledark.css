@@ -283,7 +283,9 @@ body {
 
 @media (max-width: 480px) {
   #blocklyArea {
-    height: calc(100vh - 200px); /* Further adjust height for very small screens */
+    height: calc(
+      100vh - 200px
+    ); /* Further adjust height for very small screens */
   }
 
   .icon-button,
