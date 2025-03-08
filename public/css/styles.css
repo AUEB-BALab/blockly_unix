@@ -9,76 +9,135 @@ html[dir='RTL'] .farSide {
 html,
 body {
   height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent overall page scrolling */
 }
 
 body {
   background-color: #fff;
   font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Navbar */
+#navbar {
+  display: flex;
+  align-items: center;
+  height: auto;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+  background-color: #f8f9fa; /* Light background for navbar */
+}
+
+#helloMessage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4px;
+  border-radius: 5px;
+}
+
+#buttonContainer {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px;
+  flex-wrap: wrap;
+}
+
+/* Buttons and Dropdowns */
+.icon-button,
+.icon-dropdown {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  background-color: #eee;
+  color: #000;
+  cursor: pointer;
+  padding: 5px 8px;
+  margin: 3px;
+}
+
+.icon-dropdown option {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Workspace Area */
 #blocklyArea {
-  height: 85%;
+  flex: 1; /* Take remaining space */
+  width: 100%;
+  overflow: auto; /* Enable scrolling */
+  position: relative;
 }
 
 #blocklyDiv {
   height: 100%;
   width: 100%;
-  overflow: auto;
+  min-height: 400px; /* Minimum height to ensure visibility */
 }
 
-#controlArea {
-  padding: 4px;
-  background: #f5f5f5;
-  border-bottom: 1px solid #ddd;
-  text-align: right;
-}
-
+/* Results Wrapper */
 #resultsWrapper {
   box-sizing: border-box;
   padding: 10px;
   border-top: 1px solid #ddd;
+  background-color: #f8f9fa; /* Light background for results area */
+  overflow-y: auto; /* Enable scrolling */
+  max-height: 200px; /* Limit height for results area */
+  width: 100%; /* Ensure it takes full width */
 }
 
+/* Results Area */
 #resultsArea {
-  position: relative; /* To position the button inside */
+  position: relative;
   margin-top: 8px;
-  padding: 9px 40px 9px 9px; /* Adjust padding to provide space for button */
+  padding: 9px 40px 9px 9px; /* Adjust padding for better spacing */
   background: #fff;
-  height: auto; /* Adjust height to fit content */
-  overflow-y: hidden;
+  height: auto;
+  overflow-y: auto; /* Enable scrolling inside the results area */
   border-radius: 8px;
   border: 1px solid #d1d1d1;
-  display: flex; /* Flexbox layout */
-  align-items: center; /* Vertically center content */
-  justify-content: space-between; /* Space between text and button */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px; /* Default font size */
+  line-height: 1.5; /* Improve readability */
 }
 
+/* Copy Button */
 #copyButton {
-  position: absolute; /* Positioned relative to #resultsArea */
-  right: 10px; /* 10px from the right edge of #resultsArea */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Adjust for vertical centering */
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   background-color: rgb(255, 255, 255) !important;
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
-  border-radius: 4px; /* Slight rounding for aesthetics */
+  border-radius: 4px;
   color: #000000;
   cursor: pointer;
+  padding: 5px; /* Add padding for better touch targets */
 }
 
+/* Minimap */
 .blockly-minimap {
   position: absolute;
   box-shadow: none;
-  width: 200px;
-  height: 150px;
-  top: 54px;
-  left: 210px;
+  width: 150px; /* Default size for larger screens */
+  height: 100px; /* Default size for larger screens */
+  top: 10px; /* Position from the top */
+  left: 10px; /* Position from the left */
   overflow: hidden;
   border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.8); /* Light background for minimap */
+  border: 1px solid #ddd; /* Light border for minimap */
 }
 
 .mapDragger {
@@ -89,12 +148,39 @@ body {
   fill-opacity: 0.1;
 }
 
+/* Media Queries for Tablet Devices */
+@media (max-width: 1024px) {
+  .blockly-minimap {
+    width: 120px; /* Smaller size for tablets */
+    height: 80px; /* Smaller size for tablets */
+    top: 8px; /* Adjust position for tablets */
+    left: 8px; /* Adjust position for tablets */
+  }
+}
+
+/* Media Queries for Mobile Devices */
+@media (max-width: 768px) {
+  .blockly-minimap {
+    width: 100px; /* Smaller size for mobile */
+    height: 60px; /* Smaller size for mobile */
+    top: 5px; /* Adjust position for mobile */
+    left: 5px; /* Adjust position for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .blockly-minimap {
+    display: none; /* Hide minimap on very small screens */
+  }
+}
+
+/* Button Hover States */
 .icon-button:hover {
-  background-color: #e7e7e7; /* Hover state color */
+  background-color: #e7e7e7;
 }
 
 .icon-button i {
-  font-size: 16px; /* Icon size */
+  font-size: 16px;
 }
 
 #executeButton {
@@ -121,121 +207,94 @@ body {
   background-color: rgb(44, 123, 197);
 }
 
-/* Navbar */
-
-#navbar {
-  display: flex;
-  align-items: center;
-  height: 5.5%; /* Increased height */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-}
-
-#helloMessage {
-  flex: 2;
-  width: 30%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 4px;
-  height: 100%;
-  border-radius: 5px; /* Rounded corners */
-}
-
-#loginButton,
-#registerButton,
-#logoutButton {
-  display: none; /* Hide by default */
-}
-
-#buttonContainer {
-  flex: 4;
-  width: 70%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 4px;
-}
-
-button {
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  font-size: large;
-  background-color: #eee;
-  color: #000;
-  cursor: pointer;
-  padding: 1px 10px;
-  margin: 1px 5px;
-}
-
-.icon-dropdown {
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  font-size: large;
-  background-color: #eee;
-  color: #000;
-  cursor: pointer;
-  padding: 5px 10px;
-  margin: 1px 5px;
-}
-
-.icon-dropdown option {
-  background-color: #fff;
-  color: #000;
-}
-
-button.primary {
-  border: 1px solid #dd4b39;
-  background-color: #dd4b39;
-  color: #fff;
-}
-
-button.primary > img {
-  opacity: 1;
-}
-
-button > img {
-  opacity: 0.6;
-  vertical-align: text-bottom;
-}
-
-button:hover > img {
-  opacity: 1;
-}
-
-button:active {
-  border: 1px solid #888 !important;
-}
-
-button:hover {
-  box-shadow: 2px 2px 5px #888;
-}
-
-button.disabled:hover > img {
-  opacity: 0.6;
-}
-
-button.disabled {
-  display: none;
-}
-
-button.notext {
-  font-size: 10%;
-}
-
-h1 {
-  font-weight: normal;
-  font-size: 140%;
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
-/* Adds padding around the group of categories and separators. */
+/* Toolbox */
 .blocklyToolboxContents {
   padding: 0.4em;
 }
-/* Adds space between the categories, rounds the corners and adds space around the label. */
+
 .blocklyTreeRow {
   padding: 3px;
   margin-bottom: 0.5em;
   border-radius: 4px;
+}
+
+/* Hide Toolbox Labels on Mobile */
+@media (max-width: 768px) {
+  .blocklyTreeLabel {
+    display: none; /* Hide toolbox labels on mobile */
+  }
+
+  .blocklyTreeRow {
+    justify-content: center; /* Center icons */
+  }
+
+  .blocklyTreeRow::after {
+    content: attr(data-tooltip); /* Show tooltip on hover */
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .blocklyTreeRow:hover::after {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+/* Media Queries for Mobile Devices */
+@media (max-width: 768px) {
+  #navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 5px;
+  }
+
+  #helloMessage,
+  #buttonContainer {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 5px;
+  }
+
+  #blocklyArea {
+    height: calc(100vh - 180px); /* Adjust height for stacked navbar */
+  }
+
+  .icon-button,
+  .icon-dropdown {
+    font-size: 12px;
+    padding: 4px 6px;
+    margin: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  #blocklyArea {
+    height: calc(
+      100vh - 200px
+    ); /* Further adjust height for very small screens */
+  }
+
+  .icon-button,
+  .icon-dropdown {
+    font-size: 10px;
+    padding: 3px 5px;
+  }
+}
+
+#toggleResultsButton {
+  display: none; /* Hide by default */
+}
+
+@media (max-width: 768px) {
+  #toggleResultsButton {
+    display: inline-block; /* Show on mobile */
+  }
 }

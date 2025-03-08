@@ -9,65 +9,119 @@ html[dir='RTL'] .farSide {
 html,
 body {
   height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent overall page scrolling */
 }
 
 body {
   background-color: #1e1e1e; /* Dark background for the entire page */
   font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
   color: rgb(208, 208, 208); /* Light text color for contrast */
 }
 
+/* Navbar */
 #navbar {
-  background-color: #252526;
+  display: flex;
+  align-items: center;
+  height: auto;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Darker shadow for depth */
+  flex-wrap: wrap;
+  background-color: #333; /* Dark background for navbar */
 }
 
+#helloMessage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4px;
+  border-radius: 5px;
+  background-color: #252526; /* Dark background for hello message */
+  color: #fff; /* White text */
+}
+
+#buttonContainer {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px;
+  flex-wrap: wrap;
+  background-color: #252526; /* Dark background for button container */
+}
+
+/* Buttons and Dropdowns */
+.icon-button,
+.icon-dropdown {
+  border-radius: 4px;
+  border: 1px solid #555; /* Darker border for buttons */
+  font-size: 14px;
+  background-color: #444; /* Dark background for buttons */
+  color: #fff; /* Light gray text */
+  cursor: pointer;
+  padding: 5px 8px;
+  margin: 3px;
+}
+
+.icon-dropdown option {
+  background-color: #333; /* Dark background for dropdown options */
+  color: #fff; /* White text */
+}
+
+/* Workspace Area */
 #blocklyArea {
-  height: 85%;
+  flex: 1; /* Take remaining space */
+  width: 100%;
+  overflow: auto; /* Enable scrolling */
+  position: relative;
+  background-color: #252526; /* Dark background for Blockly workspace */
 }
 
 #blocklyDiv {
   height: 100%;
   width: 100%;
-  overflow: auto;
-  background-color: #252526; /* Dark background for Blockly workspace */
+  min-height: 400px; /* Minimum height to ensure visibility */
 }
 
-#controlArea {
-  padding: 4px;
-  background: #333; /* Dark background for control area */
-  border-bottom: 1px solid #555; /* Darker border for separation */
-  text-align: right;
-  color: rgb(208, 208, 208); /* White text for control area */
-}
-
+/* Results Wrapper */
 #resultsWrapper {
   box-sizing: border-box;
   padding: 10px;
   border-top: 1px solid #555; /* Darker border for results area */
+  background-color: #333; /* Dark background for results area */
+  overflow-y: auto; /* Enable scrolling */
+  max-height: 200px; /* Limit height for results area */
+  width: 100%; /* Ensure it takes full width */
 }
 
+/* Results Area */
 #resultsArea {
-  position: relative; /* To allow absolute positioning for button */
+  position: relative;
   margin-top: 8px;
-  padding: 9px 40px 9px 9px; /* Adjust padding to provide space for the button */
+  padding: 9px 40px 9px 9px; /* Adjust padding for better spacing */
   background: #252526; /* Dark background for results area */
-  overflow-y: hidden;
+  height: auto;
+  overflow-y: auto; /* Enable scrolling inside the results area */
   border-radius: 8px;
   border: 1px solid #555; /* Darker border */
   color: #fff; /* White text for results area */
-  display: flex; /* Flexbox layout */
-  align-items: center; /* Vertically center content */
-  justify-content: space-between; /* Space between text and button */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px; /* Default font size */
+  line-height: 1.5; /* Improve readability */
 }
 
+/* Copy Button */
 #copyButton {
-  position: absolute; /* Positioned relative to #resultsArea */
-  right: 10px; /* 10px from the right edge of #resultsArea */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Adjust for vertical centering */
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   background-color: #252526 !important; /* Dark grey background color */
   border: none !important; /* Remove border */
   outline: none !important; /* Remove outline */
@@ -75,28 +129,33 @@ body {
   border-radius: 4px; /* Slight rounding for aesthetics */
   color: #fff; /* White color for the icon */
   cursor: pointer;
+  padding: 5px; /* Add padding for better touch targets */
 }
 
+/* Minimap */
 .blockly-minimap {
   position: absolute;
   box-shadow: none;
-  width: 200px;
-  height: 150px;
-  top: 54px;
-  left: 210px;
+  width: 150px;
+  height: 100px;
+  top: 10px;
+  left: 10px;
+  overflow: hidden;
   border-radius: 3px;
+  background-color: #333; /* Dark background for minimap */
 }
 
-.blockly-focus-region {
-  fill: #252526; /* Applies to SVG elements */
+.mapDragger {
+  cursor: move;
+  fill: rgb(0, 0, 255);
+  stroke-width: 0.5;
+  stroke: rgb(0, 0, 0);
+  fill-opacity: 0.1;
 }
 
-.svg {
-  fill: #252526; /* Applies to SVG elements */
-}
-
+/* Button Hover States */
 .icon-button:hover {
-  background-color: #444; /* Darker hover state color */
+  background-color: #555; /* Darker hover state color */
 }
 
 .icon-button i {
@@ -130,125 +189,11 @@ body {
   background-color: rgb(44, 123, 197);
 }
 
-/* Navbar */
-
-#navbar {
-  display: flex;
-  align-items: center;
-  height: 5.5%; /* Increased height */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Darker shadow for depth */
-  background-color: #333; /* Dark background for navbar */
-}
-
-#helloMessage {
-  flex: 2;
-  width: 30%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 4px;
-  height: 100%;
-  border-radius: 5px; /* Rounded corners */
-
-  background-color: rgb(37, 37, 38); /* Dark background for hello message */
-  color: #fff; /* White text */
-}
-
-#loginButton,
-#registerButton,
-#logoutButton {
-  display: none; /* Hide by default */
-}
-
-#buttonContainer {
-  flex: 4;
-  width: 70%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 4px;
-  background-color: rgb(37, 37, 38);
-}
-
-button {
-  border-radius: 4px;
-  border: 1px solid #555; /* Darker border for buttons */
-  font-size: large;
-  background-color: #444; /* Dark background for buttons */
-  color: #fff; /* Light gray text */
-  cursor: pointer;
-  padding: 1px 10px;
-  margin: 1px 5px;
-}
-
-.icon-dropdown {
-  border-radius: 4px;
-  border: 1px solid #555; /* Darker border for dropdown */
-  font-size: large;
-  background-color: #444; /* Dark background for dropdown */
-  color: #fff; /* Light gray text */
-  cursor: pointer;
-  padding: 5px 10px;
-  margin: 1px 5px;
-}
-
-.icon-dropdown option {
-  background-color: #333; /* Dark background for dropdown options */
-  color: #fff; /* White text */
-}
-
-button.primary {
-  border: 1px solid #d32f2f; /* Dark red border */
-  background-color: #d32f2f; /* Dark red background */
-  color: #fff; /* White text */
-}
-
-button.primary > img {
-  opacity: 1;
-}
-
-button > img {
-  opacity: 0.8; /* Slightly increased opacity for images */
-  vertical-align: text-bottom;
-}
-
-button:hover > img {
-  opacity: 1;
-}
-
-button:active {
-  border: 1px solid #888 !important; /* Lighter border on active */
-}
-
-button:hover {
-  box-shadow: 2px 2px 5px #666; /* Lighter shadow on hover */
-}
-
-button.disabled:hover > img {
-  opacity: 0.6;
-}
-
-button.disabled {
-  display: none;
-}
-
-button.notext {
-  font-size: 10%;
-}
-
-h1 {
-  font-weight: normal;
-  font-size: 140%;
-  margin-left: 5px;
-  margin-right: 5px;
-  color: #fff; /* White text for headings */
-}
-
-/* Adds padding around the group of categories and separators. */
+/* Toolbox */
 .blocklyToolboxContents {
   padding: 0.4em;
 }
-/* Adds space between the categories, rounds the corners and adds space around the label. */
+
 .blocklyTreeRow {
   padding: 3px;
   margin-bottom: 0.5em;
@@ -257,11 +202,124 @@ h1 {
   color: #fff; /* White text */
 }
 
-/* Separator Styling */
-.blocklyTreeSeparator {
-  border-bottom: solid #3a3a3a 2px;
+/* Hide Toolbox Labels on Mobile */
+@media (max-width: 768px) {
+  .blocklyTreeLabel {
+    display: none; /* Hide toolbox labels on mobile */
+  }
+
+  .blocklyTreeRow {
+    justify-content: center; /* Center icons */
+  }
+
+  .blocklyTreeRow::after {
+    content: attr(data-tooltip); /* Show tooltip on hover */
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .blocklyTreeRow:hover::after {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
-.blocklyMainBackground {
-  stroke: #0b0b0b;
+/* Media Queries for Mobile Devices */
+@media (max-width: 768px) {
+  #navbar {
+    flex-direction: column; /* Stack navbar items vertically */
+    height: auto;
+    padding: 5px;
+  }
+
+  #helloMessage,
+  #buttonContainer {
+    width: 100%; /* Full width for stacked layout */
+    justify-content: center; /* Center items */
+    margin-bottom: 5px; /* Add spacing between stacked items */
+  }
+
+  #blocklyArea {
+    height: calc(100vh - 180px); /* Adjust height for stacked navbar */
+  }
+
+  .icon-button,
+  .icon-dropdown {
+    font-size: 12px; /* Smaller font size for mobile */
+    padding: 4px 6px; /* Adjust padding for smaller screens */
+    margin: 2px; /* Reduce margin for better spacing */
+  }
+
+  .blockly-minimap {
+    width: 100px; /* Smaller minimap for mobile */
+    height: 75px; /* Smaller minimap for mobile */
+    top: 5px; /* Adjust position for mobile */
+    left: 5px; /* Adjust position for mobile */
+  }
+
+  #resultsWrapper {
+    max-height: 150px; /* Reduce height for smaller screens */
+    padding: 8px; /* Reduce padding for smaller screens */
+  }
+
+  #resultsArea {
+    padding: 8px 35px 8px 8px; /* Adjust padding for smaller screens */
+    font-size: 12px; /* Smaller font size for mobile */
+  }
+
+  #copyButton {
+    right: 8px; /* Adjust position for smaller screens */
+    padding: 4px; /* Smaller padding for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  #blocklyArea {
+    height: calc(
+      100vh - 200px
+    ); /* Further adjust height for very small screens */
+  }
+
+  .icon-button,
+  .icon-dropdown {
+    font-size: 10px; /* Even smaller font size for very small screens */
+    padding: 3px 5px; /* Adjust padding for very small screens */
+  }
+
+  .blockly-minimap {
+    display: none; /* Hide minimap on very small screens */
+  }
+
+  #resultsWrapper {
+    max-height: 120px; /* Further reduce height for very small screens */
+    padding: 6px; /* Further reduce padding for very small screens */
+  }
+
+  #resultsArea {
+    padding: 6px 30px 6px 6px; /* Further adjust padding for very small screens */
+    font-size: 11px; /* Even smaller font size for very small screens */
+  }
+
+  #copyButton {
+    right: 6px; /* Further adjust position for very small screens */
+    padding: 3px; /* Even smaller padding for very small screens */
+  }
+}
+
+#toggleResultsButton {
+  display: none; /* Hide by default */
+}
+
+@media (max-width: 768px) {
+  #toggleResultsButton {
+    display: inline-block; /* Show on mobile */
+  }
 }
