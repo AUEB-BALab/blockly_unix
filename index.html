@@ -160,6 +160,18 @@
         });
       });
     </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+        if (isMobile) {
+          const toolboxLabels = document.querySelectorAll('.blocklyTreeLabel');
+          toolboxLabels.forEach((label) => {
+            label.style.display = 'none'; // Hide labels on mobile
+          });
+        }
+      });
+    </script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
@@ -726,10 +738,7 @@
 
       const plugin = new ScrollOptions(workspace);
       plugin.init();
-
-      const minimap = new Minimap(workspace);
-      minimap.init();
-
+      
       const crossTabCopyPasteOptions = {
         contextMenu: true,
         shortcut: true
