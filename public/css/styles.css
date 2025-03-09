@@ -166,11 +166,92 @@ body {
     top: 5px; /* Adjust position for mobile */
     left: 5px; /* Adjust position for mobile */
   }
+
+  /* Navbar adjustments for mobile */
+  #navbar {
+    flex-direction: row; /* Keep buttons in a single line */
+    height: auto;
+    padding: 5px;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+  }
+
+  #helloMessage,
+  #buttonContainer {
+    width: auto; /* Allow buttons to shrink */
+    justify-content: flex-start; /* Align buttons to the left */
+    margin-bottom: 0; /* Remove margin */
+  }
+
+  /* Button adjustments for mobile */
+  .icon-button,
+  .icon-dropdown {
+    font-size: 12px; /* Smaller font size */
+    padding: 4px 6px; /* Smaller padding */
+    margin: 2px; /* Smaller margin */
+    white-space: nowrap; /* Prevent text wrapping */
+  }
+
+  /* Adjust icon size for mobile */
+  .icon-button i {
+    font-size: 14px; /* Smaller icon size */
+  }
+
+  /* Toolbox adjustments for mobile */
+  .blocklyToolboxDiv {
+    width: 40px; /* Smaller toolbox width */
+  }
+
+  .blocklyTreeRow {
+    padding: 2px; /* Smaller padding for toolbox items */
+    margin-bottom: 0.3em; /* Smaller margin */
+  }
+
+  .blocklyTreeLabel {
+    display: none; /* Hide labels on mobile */
+  }
+
+  .blocklyTreeRow::after {
+    content: attr(data-tooltip); /* Show tooltip on hover */
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .blocklyTreeRow:hover::after {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
+/* Media Queries for Very Small Screens */
 @media (max-width: 480px) {
   .blockly-minimap {
     display: none; /* Hide minimap on very small screens */
+  }
+
+  /* Further reduce button size for very small screens */
+  .icon-button,
+  .icon-dropdown {
+    font-size: 10px; /* Even smaller font size */
+    padding: 3px 5px; /* Even smaller padding */
+  }
+
+  /* Adjust icon size for very small screens */
+  .icon-button i {
+    font-size: 12px; /* Even smaller icon size */
+  }
+
+  /* Further reduce toolbox width for very small screens */
+  .blocklyToolboxDiv {
+    width: 35px; /* Even smaller toolbox width */
   }
 }
 
@@ -245,47 +326,6 @@ body {
   .blocklyTreeRow:hover::after {
     visibility: visible;
     opacity: 1;
-  }
-}
-
-/* Media Queries for Mobile Devices */
-@media (max-width: 768px) {
-  #navbar {
-    flex-direction: column;
-    height: auto;
-    padding: 5px;
-  }
-
-  #helloMessage,
-  #buttonContainer {
-    width: 100%;
-    justify-content: center;
-    margin-bottom: 5px;
-  }
-
-  #blocklyArea {
-    height: calc(100vh - 180px); /* Adjust height for stacked navbar */
-  }
-
-  .icon-button,
-  .icon-dropdown {
-    font-size: 12px;
-    padding: 4px 6px;
-    margin: 2px;
-  }
-}
-
-@media (max-width: 480px) {
-  #blocklyArea {
-    height: calc(
-      100vh - 200px
-    ); /* Further adjust height for very small screens */
-  }
-
-  .icon-button,
-  .icon-dropdown {
-    font-size: 10px;
-    padding: 3px 5px;
   }
 }
 
