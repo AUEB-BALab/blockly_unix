@@ -134,6 +134,8 @@
               // User is authenticated
               document.getElementById('logoutButton').style.display =
                 'inline-block';
+              document.getElementById('loginButton').style.display = 'none'; // Hide login button
+              document.getElementById('registerButton').style.display = 'none'; // Hide register button
               document
                 .getElementById('logoutButton')
                 .addEventListener('click', () => {
@@ -144,12 +146,19 @@
               document.getElementById('helloMessage').style.display = 'flex';
               document.getElementById('registerButton').style.display =
                 'inline-block';
+              document.getElementById('loginButton').style.display =
+                'inline-block';
+              document.getElementById('logoutButton').style.display = 'none';
               document
                 .getElementById('registerButton')
                 .addEventListener('click', () => {
                   window.location.href = '/register'; // Redirect to register page
                 });
-              document.getElementById('logoutButton').style.display = 'none';
+              document
+                .getElementById('loginButton')
+                .addEventListener('click', () => {
+                  window.location.href = '/login'; // Redirect to the login page
+                });
             }
           })
           .catch((error) => {
@@ -163,7 +172,7 @@
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
+    
         if (isMobile) {
           const toolboxLabels = document.querySelectorAll('.blocklyTreeLabel');
           toolboxLabels.forEach((label) => {
