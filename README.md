@@ -7,6 +7,10 @@ by plugging together processing blocks with their mouse.
 The constructed pipelines are implemented using Unix tools.
 ![Picture2](public/img/README_cover.png)
 
+## Access UBlocks
+
+Ublocks is available [here](https://ublocks.balab.aueb.gr/)
+
 ## Set up instructions
 
 To run UBlocks on a local server, navigate to the top-level directory and start the development server by running the following command:
