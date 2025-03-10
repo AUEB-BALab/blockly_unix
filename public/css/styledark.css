@@ -22,10 +22,10 @@ body {
   color: rgb(208, 208, 208);
 }
 
-/* Navbar */
 #navbar {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Ensure space between left and right sections */
   height: auto;
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
@@ -37,7 +37,7 @@ body {
   flex: 1;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-start; /* Align to the left */
   padding: 4px;
   border-radius: 5px;
   background-color: #252526; /* Dark background for hello message */
@@ -45,13 +45,13 @@ body {
 }
 
 #buttonContainer {
-  flex: 2;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-end; /* Align buttons to the right */
   padding: 4px;
   flex-wrap: wrap;
   background-color: #252526; /* Dark background for button container */
+  margin-left: auto; 
 }
 
 /* Buttons and Dropdowns */
@@ -68,8 +68,8 @@ body {
 }
 
 .icon-dropdown option {
-  background-color: #333; /* Dark background for dropdown options */
-  color: #fff; /* White text */
+  background-color: #fff;
+  color: #000;
 }
 
 /* Workspace Area */
