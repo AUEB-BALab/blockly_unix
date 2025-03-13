@@ -522,10 +522,11 @@ document
   .getElementById('themeDropdown')
   .addEventListener('change', manageTheme);
 
-// Language selection dropdown
+/* Language selection dropdown
 document
   .getElementById('languageMenu')
   .addEventListener('change', handleLanguageChange);
+  */
 
 // Load initial language and manage workspaces when DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
