@@ -234,11 +234,11 @@ app.post(
 
 // Routes
 app.get('/', (req, res) => {
-  res.render('homePage', { errorMessages: req.flash('error') || [] });
+  res.render('./pages/homePage', { errorMessages: req.flash('error') || [] });
 });
 
 app.get('/tutorials', (req, res) => {
-  res.render('tutorials', { errorMessages: req.flash('error') || [] });
+  res.render('./pages/tutorials', { errorMessages: req.flash('error') || [] });
 });
 
 app.get('/blockly_unix', addAuthToken, (req, res) => {
@@ -267,11 +267,11 @@ app.get('/auth-token', addAuthToken, (req, res) => {
 });
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
-  res.render('login', { errorMessages: req.flash('error') || [] });
+  res.render('./auth/login', { errorMessages: req.flash('error') || [] });
 });
 
 app.get('/register', checkNotAuthenticated, (req, res) => {
-  res.render('register', { errorMessages: req.flash('error') || [] });
+  res.render('./auth/register', { errorMessages: req.flash('error') || [] });
 });
 
 app.get('/logout', function (req, res, next) {
