@@ -90,6 +90,15 @@ Blockly.defineBlocksWithJsonArray([fooBlock]);
 window.unixGenerator.forBlock['foo'] = window.unixGenerator.forBlock.generic;
 ```
 
+**Note:** Even though it isnt recommended if the name of the block you are adding has a space in it (eg. `git add`) due to javascript naming convention there is a possibility your block and its unix_description isnt findble.
+
+You can make it findable by adding this snippet of code to your block's file.
+
+```js
+// Make the block definition findable on the window object because the type has a space
+window['command nameBlock'] = commandNameBlock;
+```
+
 #### 2.1 Managing `unix_description`
 
 In the **UnixGenerator** architecture, each **Blockly** block has an associated `unix_description`, which describes how its fields (`fieldValues`) and child blocks (`childCode`) should be translated into a Unix command. Also it is crucial that the keys used in unix_description correspond exactly to the names of the fields defined in args. This ensures that the generator can correctly map field values to their respective parts in the Unix command. Below is a high-level overview of how this works:

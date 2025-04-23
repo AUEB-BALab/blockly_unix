@@ -1205,3 +1205,152 @@ Blockly.Msg['REGALTERNATION_TOOLTIP'] =
   'Matches either the pattern on the left or the pattern on the right. Use | for logical "or".';
 Blockly.Msg['REGALTERNATION_HELPURL'] =
   'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#logical_or';
+
+/* Git Commands */
+
+// git add command
+Blockly.Msg['GIT_ADD_0'] =
+  'Stage file(s): %1 to be included in the next commit';
+Blockly.Msg['GIT_ADD_1'] =
+  'Only When staging a specific file: Specify file path: %1';
+Blockly.Msg['GIT_ADD_TOOLTIP'] =
+  'Stages changes for the next commit. Use "." to add all files, or specify a file path to stage a specific one.';
+Blockly.Msg['GIT_ADD_HELPURL'] = 'https://git-scm.com/docs/git-add';
+
+// git branch command
+Blockly.Msg['GIT_BRANCH'] = 'Create a new Git branch: %1';
+Blockly.Msg['GIT_BRANCH_TOOLTIP'] =
+  'Creates a new branch with the specified name using "git branch".';
+Blockly.Msg['GIT_BRANCH_HELPURL'] = 'https://git-scm.com/docs/git-branch';
+
+// git checkout command
+Blockly.Msg['GIT_CHECKOUT'] = 'Switch to branch named: %1';
+Blockly.Msg['GIT_CHECKOUT_TOOLTIP'] = 'Switches to the specified branch';
+Blockly.Msg['GIT_CHECKOUT_HELPURL'] = 'https://git-scm.com/docs/git-checkout';
+
+// git clean command
+Blockly.Msg['GIT_CLEAN'] =
+  'Remove any untracked files/directories with options: %1';
+Blockly.Msg['GIT_CLEAN_TOOLTIP'] =
+  'Cleans the working directory by removing untracked files or directories. Choose the appropriate option.';
+Blockly.Msg['GIT_CLEAN_HELPURL'] = 'https://git-scm.com/docs/git-clean';
+
+// git clone command
+Blockly.Msg['GIT_CLONE'] = 'Clone repository from URL: %1';
+Blockly.Msg['GIT_CLONE_TOOLTIP'] =
+  'Clones an existing Git repository from a remote URL';
+Blockly.Msg['GIT_CLONE_HELPURL'] = 'https://git-scm.com/docs/git-clone';
+
+// git commit command
+Blockly.Msg['GIT_COMMIT'] = 'Commit your staged changes with a message: %1';
+Blockly.Msg['GIT_COMMIT_TOOLTIP'] =
+  'Commits staged changes with the specified message';
+Blockly.Msg['GIT_COMMIT_HELPURL'] = 'https://git-scm.com/docs/git-commit';
+
+// git diff command
+Blockly.Msg['GIT_DIFF'] =
+  'Shows the changes made in the working directory\n Compared to the index or the last commit';
+Blockly.Msg['GIT_DIFF_TOOLTIP'] =
+  'Displays the differences between the working directory and the index, or between the working directory and the last commit.';
+Blockly.Msg['GIT_DIFF_HELPURL'] = 'https://git-scm.com/docs/git-diff';
+
+// git fetch command
+Blockly.Msg['GIT_FETCH'] = 'Fetch changes from remote: %1';
+Blockly.Msg['GIT_FETCH_TOOLTIP'] =
+  'Fetches changes from the specified remote repository without merging them';
+Blockly.Msg['GIT_FETCH_HELPURL'] = 'https://git-scm.com/docs/git-fetch';
+
+// git init command
+Blockly.Msg['GIT_INIT'] = 'Initialize a new git repository';
+Blockly.Msg['GIT_INIT_TOOLTIP'] =
+  'Initializes a new Git repository in the current directory';
+Blockly.Msg['GIT_INIT_HELPURL'] = 'https://git-scm.com/docs/git-init';
+
+// git log command
+Blockly.Msg['GIT_LOG_0'] = 'Show commit history';
+Blockly.Msg['GIT_LOG_1'] = 'Show a single line for each commit: %1';
+Blockly.Msg['GIT_LOG_2'] = 'Show summary of changes: %1';
+Blockly.Msg['GIT_LOG_3'] = 'Show commit history as a graph: %1';
+Blockly.Msg['GIT_LOG_TOOLTIP'] =
+  'Displays a log of commits made in the repository';
+Blockly.Msg['GIT_LOG_HELPURL'] = 'https://git-scm.com/docs/git-log';
+
+// git merge command
+Blockly.Msg['GIT_MERGE'] = 'Merge branch %1 into current branch';
+Blockly.Msg['GIT_MERGE_TOOLTIP'] =
+  'Merges the specified branch into the current branch';
+Blockly.Msg['GIT_MERGE_HELPURL'] = 'https://git-scm.com/docs/git-merge';
+
+// git pull command
+Blockly.Msg['GIT_PULL'] =
+  'Pull latest changes from remote repo: %1 from the: %2 branch';
+Blockly.Msg['GIT_PULL_TOOLTIP'] =
+  'Fetches and merges changes from the specified remote and branch';
+Blockly.Msg['GIT_PULL_HELPURL'] = 'https://git-scm.com/docs/git-pull';
+
+// git push command
+Blockly.Msg['GIT_PUSH'] = 'Push local commits to remote %1 on branch %2';
+Blockly.Msg['GIT_PUSH_TOOLTIP'] =
+  'Pushes local commits to the specified remote and branch';
+Blockly.Msg['GIT_PUSH_HELPURL'] = 'https://git-scm.com/docs/git-push';
+
+// git remote command
+Blockly.Msg['GIT_REMOTE'] = 'Show the remote URLs';
+Blockly.Msg['GIT_REMOTE_TOOLTIP'] =
+  'Displays the URLs of the remotes for your Git repository';
+Blockly.Msg['GIT_REMOTE_HELPURL'] = 'https://git-scm.com/docs/git-remote';
+
+// git reset command
+Blockly.Msg['GIT_RESET'] = 'Unstage or revert to previous commit with: %1';
+Blockly.Msg['GIT_RESET_TOOLTIP'] =
+  'Unstages files or moves the HEAD to a previous commit';
+Blockly.Msg['GIT_RESET_HELPURL'] = 'https://git-scm.com/docs/git-reset';
+
+// git restore command
+Blockly.Msg['GIT_RESTORE'] = 'Restore file from repository %1';
+Blockly.Msg['GIT_RESTORE_TOOLTIP'] =
+  'Restores a file from the most recent commit.';
+Blockly.Msg['GIT_RESTORE_HELPURL'] = 'https://git-scm.com/docs/git-restore';
+
+// git set config command
+Blockly.Msg['GIT_SET_CONFIG'] = 'Set config %1 to %2';
+Blockly.Msg['GIT_SET_CONFIG_TOOLTIP'] =
+  'Sets a Git configuration option (e.g., username, email)';
+Blockly.Msg['GIT_SET_CONFIG_HELPURL'] = 'https://git-scm.com/docs/git-config';
+
+// git show command
+Blockly.Msg['GIT_SHOW'] = 'Show details of a commit: %1';
+Blockly.Msg['GIT_SHOW_TOOLTIP'] =
+  'Displays the details of a specific commit (commit hash, changes made, etc.).';
+Blockly.Msg['GIT_SHOW_HELPURL'] = 'https://git-scm.com/docs/git-show';
+
+// git stash command
+Blockly.Msg['GIT_STASH'] = 'Stash your local changes temporarily';
+Blockly.Msg['GIT_STASH_TOOLTIP'] =
+  'Temporarily saves your uncommitted changes and reverts your working directory to match the HEAD commit.';
+Blockly.Msg['GIT_STASH_HELPURL'] = 'https://git-scm.com/docs/git-stash';
+
+// git stash pop command
+Blockly.Msg['GIT_STASH_POP'] =
+  'Apply the most recent stash and remove it from the stash list';
+Blockly.Msg['GIT_STASH_POP_TOOLTIP'] =
+  'Applies the most recent stash (restores your changes) and removes it from the stash list.';
+Blockly.Msg['GIT_STASH_POP_HELPURL'] = 'https://git-scm.com/docs/git-stash';
+
+// git status command
+Blockly.Msg['GIT_STATUS'] = 'Check the current git repository status';
+Blockly.Msg['GIT_STATUS_TOOLTIP'] =
+  'Displays the state of the working directory and staging area';
+Blockly.Msg['GIT_STATUS_HELPURL'] = 'https://git-scm.com/docs/git-status';
+
+// git tag command
+Blockly.Msg['GIT_TAG'] = 'Create a tag: %1';
+Blockly.Msg['GIT_TAG_TOOLTIP'] =
+  'Create a tag at the current commit, usually to mark release points.';
+Blockly.Msg['GIT_TAG_HELPURL'] = 'https://git-scm.com/docs/git-tag';
+
+// git view config command
+Blockly.Msg['GIT_VIEW_CONFIG'] = 'View your Git configurations %1';
+Blockly.Msg['GIT_VIEW_CONFIG_TOOLTIP'] =
+  'Displays all your git configurations(eg. usename, email, default branch,... etc)';
+Blockly.Msg['GIT_VIEW_CONFIG_HELPURL'] = 'https://git-scm.com/docs/git-config';

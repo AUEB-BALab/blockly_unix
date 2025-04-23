@@ -1250,3 +1250,154 @@ Blockly.Msg['REGALTERNATION_TOOLTIP'] =
   'Ταιριάζει είτε με το πρότυπο στα αριστερά είτε με το πρότυπο στα δεξιά. Χρησιμοποιήστε | για λογικό "ή".';
 Blockly.Msg['REGALTERNATION_HELPURL'] =
   'https://developer.mozilla.org/el/docs/Web/JavaScript/Guide/Regular_Expressions#logical_or';
+
+/* Git Commands */
+
+// git add command
+Blockly.Msg['GIT_ADD_0'] =
+  'Προσθήκη αρχείου(ων) στο staging: %1 για να συμπεριληφθούν στο επόμενο commit';
+Blockly.Msg['GIT_ADD_1'] =
+  'Μόνο όταν γίνεται staging συγκεκριμένου αρχείου: Καθορίστε διαδρομή αρχείου: %1';
+Blockly.Msg['GIT_ADD_TOOLTIP'] =
+  'Προσθέτει αλλαγές για το επόμενο commit. Χρησιμοποιήστε "." για να προσθέσετε όλα τα αρχεία ή καθορίστε διαδρομή για συγκεκριμένο αρχείο.';
+Blockly.Msg['GIT_ADD_HELPURL'] = 'https://git-scm.com/docs/git-add';
+
+// git branch command
+Blockly.Msg['GIT_BRANCH'] = 'Δημιουργία νέου branch Git: %1';
+Blockly.Msg['GIT_BRANCH_TOOLTIP'] =
+  'Δημιουργεί νέο branch με το καθορισμένο όνομα χρησιμοποιώντας "git branch".';
+Blockly.Msg['GIT_BRANCH_HELPURL'] = 'https://git-scm.com/docs/git-branch';
+
+// git checkout command
+Blockly.Msg['GIT_CHECKOUT'] = 'Εναλλαγή σε branch με όνομα: %1';
+Blockly.Msg['GIT_CHECKOUT_TOOLTIP'] = 'Μεταβαίνει στο καθορισμένο branch';
+Blockly.Msg['GIT_CHECKOUT_HELPURL'] = 'https://git-scm.com/docs/git-checkout';
+
+// git clean command
+Blockly.Msg['GIT_CLEAN'] =
+  'Αφαίρεση μη παρακολουθούμενων αρχείων/φακέλων με επιλογές: %1';
+Blockly.Msg['GIT_CLEAN_TOOLTIP'] =
+  'Καθαρίζει τον κατάλογο εργασίας αφαιρώντας μη παρακολουθούμενα αρχεία ή φακέλους. Επιλέξτε την κατάλληλη επιλογή.';
+Blockly.Msg['GIT_CLEAN_HELPURL'] = 'https://git-scm.com/docs/git-clean';
+
+// git clone command
+Blockly.Msg['GIT_CLONE'] = 'Κλωνοποίηση αποθετηρίου από URL: %1';
+Blockly.Msg['GIT_CLONE_TOOLTIP'] =
+  'Κλωνοποιεί υπάρχον αποθετήριο Git από απομακρυσμένο URL';
+Blockly.Msg['GIT_CLONE_HELPURL'] = 'https://git-scm.com/docs/git-clone';
+
+// git commit command
+Blockly.Msg['GIT_COMMIT'] = 'Commit των αλλαγών με μήνυμα: %1';
+Blockly.Msg['GIT_COMMIT_TOOLTIP'] =
+  'Κάνει commit τις αλλαγές που έχουν προστεθεί στο staging με το καθορισμένο μήνυμα';
+Blockly.Msg['GIT_COMMIT_HELPURL'] = 'https://git-scm.com/docs/git-commit';
+
+// git diff command
+Blockly.Msg['GIT_DIFF'] =
+  'Εμφανίζει τις αλλαγές που έγιναν στον κατάλογο εργασίας\n Σε σύγκριση με το index ή το τελευταίο commit';
+Blockly.Msg['GIT_DIFF_TOOLTIP'] =
+  'Εμφανίζει τις διαφορές μεταξύ του καταλόγου εργασίας και του index ή του τελευταίου commit.';
+Blockly.Msg['GIT_DIFF_HELPURL'] = 'https://git-scm.com/docs/git-diff';
+
+// git fetch command
+Blockly.Msg['GIT_FETCH'] = 'Λήψη αλλαγών από απομακρυσμένο: %1';
+Blockly.Msg['GIT_FETCH_TOOLTIP'] =
+  'Λαμβάνει αλλαγές από το καθορισμένο απομακρυσμένο αποθετήριο χωρίς να τις συγχωνεύει';
+Blockly.Msg['GIT_FETCH_HELPURL'] = 'https://git-scm.com/docs/git-fetch';
+
+// git init command
+Blockly.Msg['GIT_INIT'] = 'Αρχικοποίηση νέου αποθετηρίου git';
+Blockly.Msg['GIT_INIT_TOOLTIP'] =
+  'Αρχικοποιεί νέο αποθετήριο Git στον τρέχοντα κατάλογο';
+Blockly.Msg['GIT_INIT_HELPURL'] = 'https://git-scm.com/docs/git-init';
+
+// git log command
+Blockly.Msg['GIT_LOG_0'] = 'Εμφάνιση ιστορικού commits';
+Blockly.Msg['GIT_LOG_1'] = 'Εμφάνιση μιας γραμμής για κάθε commit: %1';
+Blockly.Msg['GIT_LOG_2'] = 'Εμφάνιση σύνοψης αλλαγών: %1';
+Blockly.Msg['GIT_LOG_3'] = 'Εμφάνιση ιστορικού commits ως γράφημα: %1';
+Blockly.Msg['GIT_LOG_TOOLTIP'] =
+  'Εμφανίζει το ιστορικό των commits του αποθετηρίου';
+Blockly.Msg['GIT_LOG_HELPURL'] = 'https://git-scm.com/docs/git-log';
+
+// git merge command
+Blockly.Msg['GIT_MERGE'] = 'Συγχώνευση branch %1 στο τρέχον branch';
+Blockly.Msg['GIT_MERGE_TOOLTIP'] =
+  'Συγχωνεύει το καθορισμένο branch στο τρέχον branch';
+Blockly.Msg['GIT_MERGE_HELPURL'] = 'https://git-scm.com/docs/git-merge';
+
+// git pull command
+Blockly.Msg['GIT_PULL'] =
+  'Λήψη των τελευταίων αλλαγών από το απομακρυσμένο repo: %1 από το branch: %2';
+Blockly.Msg['GIT_PULL_TOOLTIP'] =
+  'Λαμβάνει και συγχωνεύει αλλαγές από το καθορισμένο απομακρυσμένο και branch';
+Blockly.Msg['GIT_PULL_HELPURL'] = 'https://git-scm.com/docs/git-pull';
+
+// git push command
+Blockly.Msg['GIT_PUSH'] =
+  'Αποστολή τοπικών commits στο απομακρυσμένο %1 στο branch %2';
+Blockly.Msg['GIT_PUSH_TOOLTIP'] =
+  'Στέλνει τα τοπικά commits στο καθορισμένο απομακρυσμένο και branch';
+Blockly.Msg['GIT_PUSH_HELPURL'] = 'https://git-scm.com/docs/git-push';
+
+// git remote command
+Blockly.Msg['GIT_REMOTE'] = 'Εμφάνιση των URLs των απομακρυσμένων';
+Blockly.Msg['GIT_REMOTE_TOOLTIP'] =
+  'Εμφανίζει τα URLs των απομακρυσμένων για το αποθετήριο Git';
+Blockly.Msg['GIT_REMOTE_HELPURL'] = 'https://git-scm.com/docs/git-remote';
+
+// git reset command
+Blockly.Msg['GIT_RESET'] =
+  'Αφαίρεση από staging ή επαναφορά σε προηγούμενο commit με: %1';
+Blockly.Msg['GIT_RESET_TOOLTIP'] =
+  'Αφαιρεί αρχεία από το staging ή μετακινεί το HEAD σε προηγούμενο commit';
+Blockly.Msg['GIT_RESET_HELPURL'] = 'https://git-scm.com/docs/git-reset';
+
+// git restore command
+Blockly.Msg['GIT_RESTORE'] = 'Επαναφορά αρχείου από το αποθετήριο %1';
+Blockly.Msg['GIT_RESTORE_TOOLTIP'] =
+  'Επαναφέρει αρχείο από το πιο πρόσφατο commit.';
+Blockly.Msg['GIT_RESTORE_HELPURL'] = 'https://git-scm.com/docs/git-restore';
+
+// git set config command
+Blockly.Msg['GIT_SET_CONFIG'] = 'Ορισμός ρύθμισης %1 σε %2';
+Blockly.Msg['GIT_SET_CONFIG_TOOLTIP'] =
+  'Ορίζει μια ρύθμιση Git (π.χ. όνομα χρήστη, email)';
+Blockly.Msg['GIT_SET_CONFIG_HELPURL'] = 'https://git-scm.com/docs/git-config';
+
+// git show command
+Blockly.Msg['GIT_SHOW'] = 'Εμφάνιση λεπτομερειών commit: %1';
+Blockly.Msg['GIT_SHOW_TOOLTIP'] =
+  'Εμφανίζει λεπτομέρειες συγκεκριμένου commit (hash, αλλαγές, κ.λπ.).';
+Blockly.Msg['GIT_SHOW_HELPURL'] = 'https://git-scm.com/docs/git-show';
+
+// git stash command
+Blockly.Msg['GIT_STASH'] = 'Προσωρινή αποθήκευση τοπικών αλλαγών';
+Blockly.Msg['GIT_STASH_TOOLTIP'] =
+  'Αποθηκεύει προσωρινά τις μη καταχωρημένες αλλαγές και επαναφέρει τον κατάλογο εργασίας στην κατάσταση του HEAD commit.';
+Blockly.Msg['GIT_STASH_HELPURL'] = 'https://git-scm.com/docs/git-stash';
+
+// git stash pop command
+Blockly.Msg['GIT_STASH_POP'] =
+  'Εφαρμογή της πιο πρόσφατης προσωρινής αποθήκευσης και αφαίρεσή της από τη λίστα';
+Blockly.Msg['GIT_STASH_POP_TOOLTIP'] =
+  'Εφαρμόζει την πιο πρόσφατη προσωρινή αποθήκευση (επαναφέρει τις αλλαγές) και την αφαιρεί από τη λίστα.';
+Blockly.Msg['GIT_STASH_POP_HELPURL'] = 'https://git-scm.com/docs/git-stash';
+
+// git status command
+Blockly.Msg['GIT_STATUS'] = 'Έλεγχος κατάστασης του τρέχοντος αποθετηρίου git';
+Blockly.Msg['GIT_STATUS_TOOLTIP'] =
+  'Εμφανίζει την κατάσταση του καταλόγου εργασίας και του staging area';
+Blockly.Msg['GIT_STATUS_HELPURL'] = 'https://git-scm.com/docs/git-status';
+
+// git tag command
+Blockly.Msg['GIT_TAG'] = 'Δημιουργία tag: %1';
+Blockly.Msg['GIT_TAG_TOOLTIP'] =
+  'Δημιουργεί tag στο τρέχον commit, συνήθως για σημείωση έκδοσης.';
+Blockly.Msg['GIT_TAG_HELPURL'] = 'https://git-scm.com/docs/git-tag';
+
+// git view config command
+Blockly.Msg['GIT_VIEW_CONFIG'] = 'Εμφάνιση των ρυθμίσεων Git %1';
+Blockly.Msg['GIT_VIEW_CONFIG_TOOLTIP'] =
+  'Εμφανίζει όλες τις ρυθμίσεις git (π.χ. όνομα χρήστη, email, προεπιλεγμένο branch, κ.λπ.)';
+Blockly.Msg['GIT_VIEW_CONFIG_HELPURL'] = 'https://git-scm.com/docs/git-config';

@@ -8,11 +8,13 @@ class UnixGenerator extends Blockly.Generator {
     super('Unix');
     this.forBlock = {
       generic: this.handleBlock.bind(this, 'generic'),
-      concat: this.handleBlock.bind(this, 'concat')
+      concat: this.handleBlock.bind(this, 'concat'),
+      sequence: this.handleBlock.bind(this, 'generic')
     };
     this.connectors = {
       generic: ' | ',
       concat: '',
+      sequence: ' ; ',
       default: ' '
     };
   }
@@ -53,6 +55,8 @@ class UnixGenerator extends Blockly.Generator {
   getConnector(handlerFunction) {
     if (handlerFunction === this.forBlock.generic) {
       return this.connectors.generic;
+    } else if (handlerFunction === this.forBlock.sequence) {
+      return this.connectors.sequence;
     } else if (handlerFunction === this.forBlock.concat) {
       return this.connectors.concat;
     } else {
