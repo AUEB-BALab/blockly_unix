@@ -185,6 +185,9 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
+    <!-- xterm.js -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css" />
     <link id="light-theme" rel="stylesheet" href="css/styles.css" />
     <link id="dark-theme" rel="stylesheet" href="css/styledark.css" disabled />
     <link rel="icon" href="/img/favicon.png" />
@@ -238,6 +241,9 @@
         <button id="executeButton" class="icon-button" title="Execute">
           <i class="fas fa-play"></i>
         </button>
+        <button id="terminalButton" class="icon-button" title="Open Terminal">
+          <i class="fas fa-terminal"></i>
+        </button>        
         <form
           id="saveWorkspaceForm"
           action="/saveWorkspace"
@@ -292,6 +298,10 @@
         </button>
       </div>
     </div>
+    <div id="terminalWrapper" style="display: none;">
+      <div id="terminalContainer" style="width: 100%; height: 100%; overflow: auto;"></div>
+      <div id="terminalResizer" style="height: 5px; background: #555; cursor: ns-resize;"></div>
+    </div>    
 
     <script>
       const baseBlockStyles = {
@@ -768,5 +778,74 @@
       ).weight = 3;
     </script>
     <script src="js/app.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+      const terminalWrapper = document.getElementById('terminalWrapper');
+
+      const term = new Terminal({
+        cursorBlink: true,
+        scrollback: 1000,
+        scrollOnUserInput: true,
+        scrollOnOutput: true,
+        rendererType: 'canvas',   // <-- COMMA HERE
+        theme: {
+          background: '#000000',
+          foreground: '#ffffff'
+        }
+      });
+
+      terminalWrapper.style.width = '100%';
+      terminalWrapper.style.height = '25vh';
+      terminalWrapper.style.border = '1px solid #333';
+      terminalWrapper.style.marginTop = '10px';
+      terminalWrapper.style.overflow = 'hidden';
+
+      const terminalContainer = document.getElementById('terminalContainer');
+      term.open(terminalContainer);
+      term.focus();
+      term.refresh(0, term.rows - 1);
+
+
+      const socket = new WebSocket('ws://localhost:5000');
+
+      socket.onopen = () => {
+        term.write('Connected to Ublocks Terminal\r\n');
+        term.onData(data => socket.send(data));
+      };
+
+      socket.onmessage = (e) => {
+        term.write(e.data);
+      };
+
+      document.getElementById('terminalButton').addEventListener('click', function() {
+        const wrapper = document.getElementById('terminalWrapper');
+        wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
+      });
+
+      term.setOption('scrollOnUserInput', true);
+      term.setOption('scrollOnOutput', true);
+    });
+    </script>
+    <script>
+      let isResizing = false;
+    
+      const container = document.getElementById('terminalContainer');
+      const resizer = document.getElementById('terminalResizer');
+
+      resizer.addEventListener('mousedown', function(e) {
+        isResizing = true;
+      });
+    
+      document.addEventListener('mousemove', function(e) {
+        if (!isResizing) return;
+        const newHeight = window.innerHeight - e.clientY;
+        container.style.height = newHeight + 'px';
+      });
+    
+      document.addEventListener('mouseup', function(e) {
+        isResizing = false;
+      });
+    </script>
+              
   </body>
 </html>
