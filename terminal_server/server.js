@@ -3,6 +3,14 @@ const { Server } = require('ws');
 const pty = require('node-pty');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs-extra'); // install this module if you don't have it
+
+const sandboxPath = '/home/sandbox';
+const templatePath = '/home/template_fs';
+
+// Reset /home/sandbox to the clean template
+fs.emptyDirSync(sandboxPath); // clear everything
+fs.copySync(templatePath, sandboxPath); // copy from template
 
 const app = express();
 const PORT = 5000;
@@ -26,7 +34,6 @@ wss.on('connection', function (ws) {
         env: {
             ...process.env,
             HOME: '/home/sandbox',
-            TERM: 'xterm-256color'
           },          
       });   
   shell.on('data', function (data) {
