@@ -32,9 +32,10 @@ wss.on('connection', function (ws) {
         rows: 24,
         cwd: '/home/sandbox',
         env: {
-            ...process.env,
             HOME: '/home/sandbox',
-          },          
+            TERM: 'xterm-256color',
+            PATH: '/bin:/usr/bin:/usr/local/bin'
+        },              
       });   
   shell.on('data', function (data) {
     ws.send(data);
