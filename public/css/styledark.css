@@ -132,6 +132,21 @@ body {
   padding: 5px; /* Add padding for better touch targets */
 }
 
+#pasteToTerminalButton {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #252526 !important; /* Dark grey background color */
+  border: none !important; /* Remove border */
+  outline: none !important; /* Remove outline */
+  box-shadow: none !important; /* Remove shadow */
+  border-radius: 4px; /* Slight rounding for aesthetics */
+  color: #fff; /* White color for the icon */
+  cursor: pointer;
+  padding: 5px; /* Add padding for better touch targets */
+}
+
 /* Minimap */
 .blockly-minimap {
   position: absolute;

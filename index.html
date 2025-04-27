@@ -187,6 +187,7 @@
     />
     <!-- xterm.js -->
     <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.7.0/lib/xterm-addon-fit.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css" />
     <link id="light-theme" rel="stylesheet" href="css/styles.css" />
     <link id="dark-theme" rel="stylesheet" href="css/styledark.css" disabled />
@@ -292,16 +293,20 @@
         <div id="resultsText" style="user-select: text">
           Results will appear here...
         </div>
-
-        <button id="copyButton" class="btn btn-light">
-          <i class="fas fa-copy"></i>
-        </button>
+        <div id="resultsButtons">
+          <button id="pasteToTerminalButton" class="btn btn-light">
+            <i class="fas fa-paste"></i>
+          </button>
+          <button id="copyButton" class="btn btn-light">
+            <i class="fas fa-copy"></i>
+          </button>
+        </div>     
       </div>
     </div>
     <div id="terminalWrapper" style="display: none;">
-      <div id="terminalContainer" style="width: 100%; height: 100%; overflow: auto;"></div>
-      <div id="terminalResizer" style="height: 5px; background: #555; cursor: ns-resize;"></div>
-    </div>    
+      <div id="terminalResizer"></div>
+      <div id="terminalContainer"></div>
+    </div>      
 
     <script>
       const baseBlockStyles = {
@@ -781,71 +786,153 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
       const terminalWrapper = document.getElementById('terminalWrapper');
+      const terminalContainer = document.getElementById('terminalContainer');
+      const terminalResizer = document.getElementById('terminalResizer');
+      const terminalButton = document.getElementById('terminalButton');
 
-      const term = new Terminal({
-        cursorBlink: true,
-        scrollback: 1000,
-        scrollOnUserInput: true,
-        scrollOnOutput: true,
-        rendererType: 'canvas',   // <-- COMMA HERE
-        theme: {
-          background: '#000000',
-          foreground: '#ffffff'
-        }
-      });
+      let term = null; // Create later on click
 
       terminalWrapper.style.width = '100%';
       terminalWrapper.style.height = '25vh';
-      terminalWrapper.style.border = '1px solid #333';
+      terminalWrapper.style.backgroundColor = '#252526'; 
+      terminalWrapper.style.border = '1px solid #555';
+      terminalWrapper.style.borderRadius = '8px';
       terminalWrapper.style.marginTop = '10px';
+      terminalWrapper.style.display = 'none'; // hidden initially
+      terminalWrapper.style.flexDirection = 'column';
       terminalWrapper.style.overflow = 'hidden';
+ 
+      terminalContainer.style.width = '100%';
+      terminalContainer.style.height = '100%';
+      terminalContainer.style.padding = '9px';
+      terminalContainer.style.overflowX = 'auto';
+      terminalContainer.style.overflowY = 'auto';
+      terminalContainer.style.boxSizing = 'border-box';
 
-      const terminalContainer = document.getElementById('terminalContainer');
-      term.open(terminalContainer);
-      term.focus();
-      term.refresh(0, term.rows - 1);
+      terminalResizer.style.height = '2px';
+      terminalResizer.style.background = '#333';
+      terminalResizer.style.cursor = 'ns-resize';
 
+      terminalButton.addEventListener('click', function() {
+        if (terminalWrapper.style.display === 'none') {
+          terminalWrapper.style.display = 'flex';
 
-      const socket = new WebSocket('ws://localhost:5000');
+          if (!term) {
+            term = new Terminal({
+              cursorBlink: true,
+              scrollback: 1000,
+              scrollOnUserInput: true,
+              scrollOnOutput: true,
+              rendererType: 'canvas',
+              wordWrap: true,
+              theme: {
+                background: '#000000',
+                foreground: '#ffffff'
+              }
+            });
 
-      socket.onopen = () => {
-        term.write('Connected to Ublocks Terminal\r\n');
-        term.onData(data => socket.send(data));
-      };
+            term.open(terminalContainer);
+            term.focus();
+            
+            const adjustedWidth = terminalContainer.clientWidth - 18;
+            const adjustedHeight = terminalContainer.clientHeight - 18;
+            term.options.wordWrap = true;
+            term.resize(Math.floor(adjustedWidth / 9), Math.floor(adjustedHeight / 17));
+            term.refresh(0, term.rows - 1);
 
-      socket.onmessage = (e) => {
-        term.write(e.data);
-      };
+            const socket = new WebSocket('ws://localhost:5000');
+            const pasteButton = document.getElementById('pasteToTerminalButton');
 
-      document.getElementById('terminalButton').addEventListener('click', function() {
-        const wrapper = document.getElementById('terminalWrapper');
-        wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
+            pasteButton.addEventListener('click', function () {
+              const text = document.getElementById('resultsText').innerText;
+
+              if (terminalWrapper.style.display === 'none') {
+                terminalWrapper.style.display = 'flex'; // open the box
+              }
+
+              if (!term) {
+                term = new Terminal({
+                  cursorBlink: true,
+                  scrollback: 1000,
+                  scrollOnUserInput: true,
+                  scrollOnOutput: true,
+                  rendererType: 'canvas',
+                  wordWrap: true,
+                  theme: {
+                    background: '#000000',
+                    foreground: '#ffffff'
+                  }
+                });
+
+                term.open(terminalContainer);
+                term.focus();
+
+                const socket = new WebSocket('ws://localhost:5000');
+
+                socket.onopen = () => {
+                  term.write('Connected to Ublocks Terminal\r\n');
+                  term.onData(data => socket.send(data));
+                };
+
+                socket.onmessage = (e) => {
+                  term.write(e.data);
+                  setTimeout(() => {
+                    term.scrollToBottom();
+                  }, 10);
+                };
+              }
+
+              term.focus();
+              term.write(text + '\r', () => {
+                term.scrollToBottom();
+              });
+            });
+
+            socket.onopen = () => {
+              term.write('Connected to Ublocks Terminal\r\n');
+              term.onData(data => socket.send(data));
+            };
+
+            socket.onmessage = (e) => {
+              term.write(e.data);
+              setTimeout(() => {
+                term.scrollToBottom();
+                terminalContainer.scrollLeft = terminalContainer.scrollWidth;
+              }, 10);
+            };
+
+            term.setOption('scrollOnUserInput', true);
+            term.setOption('scrollOnOutput', true);
+          }
+        } else {
+          terminalWrapper.style.display = 'none';
+        }
       });
 
-      term.setOption('scrollOnUserInput', true);
-      term.setOption('scrollOnOutput', true);
-    });
-    </script>
-    <script>
       let isResizing = false;
-    
-      const container = document.getElementById('terminalContainer');
-      const resizer = document.getElementById('terminalResizer');
 
-      resizer.addEventListener('mousedown', function(e) {
+      terminalResizer.addEventListener('mousedown', function(e) {
         isResizing = true;
       });
-    
+
       document.addEventListener('mousemove', function(e) {
         if (!isResizing) return;
         const newHeight = window.innerHeight - e.clientY;
-        container.style.height = newHeight + 'px';
+        terminalWrapper.style.height = newHeight + 'px';
+
+        if (term) {
+          setTimeout(() => {
+            const adjustedWidth = terminalContainer.clientWidth - 18;
+            const adjustedHeight = terminalContainer.clientHeight - 18;
+            term.resize(Math.floor(adjustedWidth / 9), Math.floor(adjustedHeight / 17));
+          }, 50);
+        }
       });
-    
+
       document.addEventListener('mouseup', function(e) {
         isResizing = false;
       });
-    </script>
-              
+    });
+    </script>    
   </body>
 </html>

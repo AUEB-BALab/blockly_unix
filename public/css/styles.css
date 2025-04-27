@@ -127,6 +127,21 @@ body {
   padding: 5px; /* Add padding for better touch targets */
 }
 
+#pasteToTerminalButton {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgb(255, 255, 255) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 4px;
+  color: #000000;
+  cursor: pointer;
+  padding: 5px; /* Add padding for better touch targets */
+}
+
 /* Minimap */
 .blockly-minimap {
   position: absolute;
