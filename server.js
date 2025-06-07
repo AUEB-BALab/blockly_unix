@@ -25,19 +25,6 @@ const db = new sqlite3.Database('db/blockly_unix_database.db', (err) => {
   }
 });
 
-const { spawn } = require('child_process');
-
-// Start the terminal server automatically
-const terminalServer = spawn('node', ['terminal_server/server.js'], {
-  stdio: 'inherit',
-  cwd: __dirname
-});
-
-terminalServer.on('close', (code) => {
-  console.log(`Terminal server exited with code ${code}`);
-});
-
-
 const { body, validationResult } = require('express-validator');
 const sessionDbPath = path.join(__dirname, 'db', 'session.db');
 const MemoryStore = require('memorystore')(session);

@@ -812,101 +812,90 @@
       terminalResizer.style.height = '2px';
       terminalResizer.style.background = '#333';
       terminalResizer.style.cursor = 'ns-resize';
+      
+      function checkTerminalServer(callback) {
+        const testSocket = new WebSocket('ws://localhost:5000');
 
-      terminalButton.addEventListener('click', function() {
-        if (terminalWrapper.style.display === 'none') {
-          terminalWrapper.style.display = 'flex';
+        testSocket.onopen = () => {
+          testSocket.close();
+          callback(true);
+        };
 
-          if (!term) {
-            term = new Terminal({
-              cursorBlink: true,
-              scrollback: 1000,
-              scrollOnUserInput: true,
-              scrollOnOutput: true,
-              rendererType: 'canvas',
-              wordWrap: true,
-              theme: {
-                background: '#000000',
-                foreground: '#ffffff'
-              }
-            });
+        testSocket.onerror = () => {
+          callback(false);
+        };
+      }
 
-            term.open(terminalContainer);
-            term.focus();
-            
-            const adjustedWidth = terminalContainer.clientWidth - 18;
-            const adjustedHeight = terminalContainer.clientHeight - 18;
-            term.options.wordWrap = true;
-            term.resize(Math.floor(adjustedWidth / 9), Math.floor(adjustedHeight / 17));
-            term.refresh(0, term.rows - 1);
-
-            const socket = new WebSocket('ws://localhost:5000');
-            const pasteButton = document.getElementById('pasteToTerminalButton');
-
-            pasteButton.addEventListener('click', function () {
-              const text = document.getElementById('resultsText').innerText;
-
-              if (terminalWrapper.style.display === 'none') {
-                terminalWrapper.style.display = 'flex'; // open the box
-              }
-
-              if (!term) {
-                term = new Terminal({
-                  cursorBlink: true,
-                  scrollback: 1000,
-                  scrollOnUserInput: true,
-                  scrollOnOutput: true,
-                  rendererType: 'canvas',
-                  wordWrap: true,
-                  theme: {
-                    background: '#000000',
-                    foreground: '#ffffff'
-                  }
+      terminalButton.addEventListener('click', function () {
+        checkTerminalServer((isRunning) => {
+          if (!isRunning) {
+            if (confirm("Terminal server is not running.\nWould you like to install it now?\n\n1. Open your terminal\n2. Paste the command\n3. Press Enter")) {
+              const installCommand = `curl -L -o install-ublocks.sh "https://www.dropbox.com/scl/fi/3t2aztovfbrd1xftcg4vq/install-ublocks.sh?rlkey=5i58ocs4mg3zhb1vlhnw9fz5h&st=gpsnmg1u&dl=1" && chmod +x install-ublocks.sh && ./install-ublocks.sh`;
+              navigator.clipboard.writeText(installCommand)
+                .then(() => {
+                  alert("✅ Command copied to clipboard!\n\nNow open your terminal and paste it.");
+                })
+                .catch(() => {
+                  alert("Here is the command to copy manually:\n\n" + installCommand);
                 });
-
-                term.open(terminalContainer);
-                term.focus();
-
-                const socket = new WebSocket('ws://localhost:5000');
-
-                socket.onopen = () => {
-                  term.write('Connected to Ublocks Terminal\r\n');
-                  term.onData(data => socket.send(data));
-                };
-
-                socket.onmessage = (e) => {
-                  term.write(e.data);
-                  setTimeout(() => {
-                    term.scrollToBottom();
-                  }, 10);
-                };
-              }
-
-              term.focus();
-              term.write(text + '\r', () => {
-                term.scrollToBottom();
-              });
-            });
-
-            socket.onopen = () => {
-              term.write('Connected to Ublocks Terminal\r\n');
-              term.onData(data => socket.send(data));
-            };
-
-            socket.onmessage = (e) => {
-              term.write(e.data);
-              setTimeout(() => {
-                term.scrollToBottom();
-                terminalContainer.scrollLeft = terminalContainer.scrollWidth;
-              }, 10);
-            };
-
-            term.setOption('scrollOnUserInput', true);
-            term.setOption('scrollOnOutput', true);
+            }
+            return;
           }
-        } else {
-          terminalWrapper.style.display = 'none';
-        }
+
+          if (terminalWrapper.style.display === 'none') {
+            terminalWrapper.style.display = 'flex';
+
+            if (!term) {
+              term = new Terminal({
+                cursorBlink: true,
+                scrollback: 1000,
+                scrollOnUserInput: true,
+                scrollOnOutput: true,
+                rendererType: 'canvas',
+                wordWrap: true,
+                theme: {
+                  background: '#000000',
+                  foreground: '#ffffff'
+                }
+              });
+
+              term.open(terminalContainer);
+              term.focus();
+
+              const adjustedWidth = terminalContainer.clientWidth - 18;
+              const adjustedHeight = terminalContainer.clientHeight - 18;
+              term.resize(Math.floor(adjustedWidth / 9), Math.floor(adjustedHeight / 17));
+              term.refresh(0, term.rows - 1);
+
+              const socket = new WebSocket('ws://localhost:5000');
+
+              socket.onopen = () => {
+                term.write('Connected to Ublocks Terminal\r\n');
+                term.onData(data => socket.send(data));
+              };
+
+              socket.onmessage = (e) => {
+                term.write(e.data);
+                setTimeout(() => {
+                  term.scrollToBottom();
+                  terminalContainer.scrollLeft = terminalContainer.scrollWidth;
+                }, 10);
+              };
+
+              term.setOption('scrollOnUserInput', true);
+              term.setOption('scrollOnOutput', true);
+
+              const pasteButton = document.getElementById('pasteToTerminalButton');
+              pasteButton.addEventListener('click', function () {
+                const text = document.getElementById('resultsText').innerText;
+                term.focus();
+                term.write(text + '\r');
+              });
+            }
+          } else {
+            terminalWrapper.style.display = 'none';
+          }
+        });
       });
 
       let isResizing = false;
