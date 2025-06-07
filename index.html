@@ -287,8 +287,17 @@
           Results will appear here...
         </div>
 
-        <button id="copyButton" class="btn btn-light">
+        <button
+          id="copyButton"
+          class="btn btn-light"
+          onclick="showCopiedMessage()"
+        >
           <i class="fas fa-copy"></i>
+          <span
+            id="copiedMsg"
+            style="display: none; color: green; margin-left: 10px"
+            >Copied!</span
+          >
         </button>
       </div>
     </div>
@@ -755,6 +764,16 @@
 
       const crossTabCopyPaste = new CrossTabCopyPaste();
       crossTabCopyPaste.init(crossTabCopyPasteOptions, () => {});
+
+      // show "Copied!" message when result is copied
+      function showCopiedMessage() {
+        const msg = document.getElementById('copiedMsg');
+        msg.style.display = 'inline';
+
+        setTimeout(() => {
+          msg.style.display = 'none';
+        }, 1500);
+      }
 
       // Optional: Remove the duplication command from Blockly's context menu
       Blockly.ContextMenuRegistry.registry.unregister('blockDuplicate');

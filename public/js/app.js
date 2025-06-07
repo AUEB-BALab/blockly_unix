@@ -426,7 +426,7 @@ function saveWorkspaceLocally() {
  * Copies the generated command text to the clipboard.
  */
 function copyToClipboard() {
-  const text = document.getElementById('resultsArea').innerText;
+  const text = document.getElementById('resultsText').innerText;
   navigator.clipboard.writeText(text).catch((err) => {
     console.error('Unable to copy:', err);
     alert('Failed to copy text.');
