@@ -80,8 +80,8 @@ wss.on('connection', function (ws) {
         'exit'
       ];
 
-      const isBlocked = blockedPatterns.some(pattern =>
-        command.startsWith(pattern) || command.includes(pattern)
+      const isBlocked = blockedPatterns.some(
+        (pattern) => command.startsWith(pattern) || command.includes(pattern)
       );
 
       if (isBlocked) {
@@ -108,9 +108,18 @@ function populateFiles(baseDir) {
   fs.mkdirSync(path.join(baseDir, 'bin'));
   fs.mkdirSync(path.join(baseDir, 'data'));
 
-  fs.writeFileSync(path.join(baseDir, 'welcome.txt'), 'Welcome to the Ublocks sandbox!');
-  fs.writeFileSync(path.join(baseDir, 'README.md'), '# Ublocks Terminal\nTry ls, cd, cat, grep...');
-  fs.writeFileSync(path.join(baseDir, 'notes.txt'), 'Use `grep`, `awk`, `cut`, and have fun.');
+  fs.writeFileSync(
+    path.join(baseDir, 'welcome.txt'),
+    'Welcome to the Ublocks sandbox!'
+  );
+  fs.writeFileSync(
+    path.join(baseDir, 'README.md'),
+    '# Ublocks Terminal\nTry ls, cd, cat, grep...'
+  );
+  fs.writeFileSync(
+    path.join(baseDir, 'notes.txt'),
+    'Use `grep`, `awk`, `cut`, and have fun.'
+  );
 
   for (let i = 1; i <= 5; i++) {
     const name = `script${i}.sh`;
@@ -121,7 +130,10 @@ function populateFiles(baseDir) {
   }
 
   for (let i = 1; i <= 5; i++) {
-    fs.writeFileSync(path.join(baseDir, 'logs', `log${i}.txt`), `Log file ${i}...\nLine 2\nLine 3`);
+    fs.writeFileSync(
+      path.join(baseDir, 'logs', `log${i}.txt`),
+      `Log file ${i}...\nLine 2\nLine 3`
+    );
   }
 
   for (let i = 1; i <= 5; i++) {
@@ -147,6 +159,9 @@ function populateFiles(baseDir) {
   Eve,eve@company.org,22`;
   fs.writeFileSync(path.join(baseDir, 'users.csv'), csvContent);
 
-  fs.writeFileSync(path.join(baseDir, 'bin', 'hello'), '#!/bin/bash\necho Hello, binary world!');
+  fs.writeFileSync(
+    path.join(baseDir, 'bin', 'hello'),
+    '#!/bin/bash\necho Hello, binary world!'
+  );
   fs.chmodSync(path.join(baseDir, 'bin', 'hello'), 0o755);
 }
