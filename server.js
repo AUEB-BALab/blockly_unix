@@ -199,7 +199,7 @@ app.post(
         ],
         function (err) {
           if (err) {
-            req.flash('error', 'Registration failed.');
+            req.flash('error', 'Username and/or Email already in use.');
             return res.redirect('/register');
           }
           req.logIn(newUser, (err) => {
