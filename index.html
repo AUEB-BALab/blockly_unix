@@ -825,6 +825,16 @@
           callback(false);
         };
       }
+      const pasteButton = document.getElementById('pasteToTerminalButton');
+      pasteButton.addEventListener('click', function () {
+        if (!term) {
+          alert("Terminal not initialized yet.");
+          return;
+        }
+        const text = document.getElementById('resultsText').innerText;
+        term.focus();
+        term.write(text + '\r');
+      });
 
       terminalButton.addEventListener('click', function () {
         checkTerminalServer((isRunning) => {
@@ -885,12 +895,6 @@
               term.setOption('scrollOnUserInput', true);
               term.setOption('scrollOnOutput', true);
 
-              const pasteButton = document.getElementById('pasteToTerminalButton');
-              pasteButton.addEventListener('click', function () {
-                const text = document.getElementById('resultsText').innerText;
-                term.focus();
-                term.write(text + '\r');
-              });
             }
           } else {
             terminalWrapper.style.display = 'none';
