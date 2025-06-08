@@ -33,7 +33,15 @@ if ! command -v git >/dev/null 2>&1; then
   has_git=false
 fi
 
-# === STEP 4: Create unique run dir ===
+# === STEP 4: macOS warning for native build ===
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  echo "🍏 macOS detected. Please ensure:"
+  echo "- Xcode CLI tools: xcode-select --install"
+  echo "- Python 3: brew install python (if missing)"
+  echo "- node-gyp: npm install -g node-gyp"
+fi
+
+# === STEP 5: Create sandbox dir ===
 RND_FOLDER="$HOME/ublocks_run_392jd"
 
 if [ -d "$RND_FOLDER" ]; then
@@ -44,7 +52,7 @@ fi
 mkdir -p "$RND_FOLDER"
 cd "$RND_FOLDER"
 
-# === STEP 5: Try Git sparse-checkout ===
+# === STEP 6: Try Git clone ===
 clone_success=false
 
 if [ "$has_git" = true ]; then
@@ -55,7 +63,7 @@ if [ "$has_git" = true ]; then
   clone_success=true
 fi
 
-# === STEP 6: Fallback to Dropbox if Git fails or missing folder ===
+# === STEP 7: Fallback to Dropbox ===
 if [ "$clone_success" = false ] || [ ! -d "terminal_server" ]; then
   echo "🔁 Git failed or terminal_server folder not found — using Dropbox fallback..."
   curl -L "https://www.dropbox.com/scl/fi/tt63gle6of8emx07jll8q/terminal_server.zip?rlkey=8z75cvofpdmezuq6li70sqryw&dl=1" -o terminal_server.zip
@@ -63,13 +71,13 @@ if [ "$clone_success" = false ] || [ ! -d "terminal_server" ]; then
   rm terminal_server.zip
 fi
 
-# === STEP 7: Run the terminal server ===
+# === STEP 8: Start server ===
 cd terminal_server
 
 echo "📦 Installing npm packages..."
 npm install
 
-# === STEP 8: Cleanup on exit
+# === STEP 9: Cleanup logic
 cleanup() {
   echo -e "\n🧹 Cleaning up sandbox from $RND_FOLDER..."
   rm -rf "$RND_FOLDER"
@@ -77,6 +85,12 @@ cleanup() {
   exit 0
 }
 trap cleanup SIGINT SIGTERM EXIT
+
+if lsof -i :5000 >/dev/null; then
+  echo "❌ Port 5000 is already in use. Please stop the other instance or use a different port."
+  exit 1
+fi
+
 
 echo "🟢 Running Terminal Server..."
 node server.js

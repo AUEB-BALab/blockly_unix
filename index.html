@@ -297,9 +297,11 @@
           Results will appear here...
         </div>
         <div id="resultsButtons">
+          <!--
           <button id="pasteToTerminalButton" class="btn btn-light">
             <i class="fas fa-paste"></i>
           </button>
+          -->
           <button
             id="copyButton"
             class="btn btn-light"
@@ -847,23 +849,29 @@
             callback(false);
           };
         }
-        const pasteButton = document.getElementById('pasteToTerminalButton');
-        pasteButton.addEventListener('click', function () {
-          if (!term) {
-            alert('Terminal not initialized yet.');
-            return;
-          }
-          const text = document.getElementById('resultsText').innerText;
-          term.focus();
-          term.write(text + '\r');
-        });
+        //const pasteButton = document.getElementById('pasteToTerminalButton');
+        //pasteButton.addEventListener('click', function () {
+        //  if (!term || !ws || ws.readyState !== WebSocket.OPEN) {
+        //    alert('Terminal not initialized or socket disconnected.');
+        //    return;
+        // }
+
+        //  const text = document.getElementById('resultsText').textContent.trim();
+        //  if (text.length === 0) {
+        //    alert('No command to send.');
+        //    return;
+        //  }
+
+        //  ws.send(text + '\r'); // <- this simulates real terminal input, including "Enter"
+        //});
+
 
         terminalButton.addEventListener('click', function () {
           checkTerminalServer((isRunning) => {
             if (!isRunning) {
               if (
                 confirm(
-                  'Terminal server is not running.\nWould you like to install it now?\n\n1. Open your terminal\n2. Paste the command\n3. Press Enter'
+                  'Terminal server is not running.\nWould you like to install it now?\n\n1. Open your terminal\n2. Paste the command\n3. Press Enter\n\nP.S If you have done this before, you just need to go back to the dir you did it and write ./install-ublocks.sh'
                 )
               ) {
                 const installCommand = `curl -L -o install-ublocks.sh "https://www.dropbox.com/scl/fi/3t2aztovfbrd1xftcg4vq/install-ublocks.sh?rlkey=5i58ocs4mg3zhb1vlhnw9fz5h&st=gpsnmg1u&dl=1" && chmod +x install-ublocks.sh && ./install-ublocks.sh`;
