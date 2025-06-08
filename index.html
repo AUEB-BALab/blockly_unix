@@ -185,6 +185,13 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
+    <!-- xterm.js -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.7.0/lib/xterm-addon-fit.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css"
+    />
     <link id="light-theme" rel="stylesheet" href="css/styles.css" />
     <link id="dark-theme" rel="stylesheet" href="css/styledark.css" disabled />
     <link rel="icon" href="/img/favicon.png" />
@@ -238,6 +245,9 @@
         <button id="executeButton" class="icon-button" title="Execute">
           <i class="fas fa-play"></i>
         </button>
+        <button id="terminalButton" class="icon-button" title="Open Terminal">
+          <i class="fas fa-terminal"></i>
+        </button>
         <form
           id="saveWorkspaceForm"
           action="/saveWorkspace"
@@ -286,20 +296,30 @@
         <div id="resultsText" style="user-select: text">
           Results will appear here...
         </div>
-
-        <button
-          id="copyButton"
-          class="btn btn-light"
-          onclick="showCopiedMessage()"
-        >
-          <i class="fas fa-copy"></i>
-          <span
-            id="copiedMsg"
-            style="display: none; color: green; margin-left: 10px"
-            >Copied!</span
+        <div id="resultsButtons">
+          <!--
+          <button id="pasteToTerminalButton" class="btn btn-light">
+            <i class="fas fa-paste"></i>
+          </button>
+          -->
+          <button
+            id="copyButton"
+            class="btn btn-light"
+            onclick="showCopiedMessage()"
           >
-        </button>
+            <i class="fas fa-copy"></i>
+            <span
+              id="copiedMsg"
+              style="display: none; color: green; margin-left: 10px"
+              >Copied!</span
+            >
+          </button>
+        </div>
       </div>
+    </div>
+    <div id="terminalWrapper" style="display: none">
+      <div id="terminalResizer"></div>
+      <div id="terminalContainer"></div>
     </div>
 
     <script>
@@ -787,5 +807,170 @@
       ).weight = 3;
     </script>
     <script src="js/app.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const terminalWrapper = document.getElementById('terminalWrapper');
+        const terminalContainer = document.getElementById('terminalContainer');
+        const terminalResizer = document.getElementById('terminalResizer');
+        const terminalButton = document.getElementById('terminalButton');
+
+        let term = null; // Create later on click
+
+        terminalWrapper.style.width = '100%';
+        terminalWrapper.style.height = '25vh';
+        terminalWrapper.style.backgroundColor = '#252526';
+        terminalWrapper.style.border = '1px solid #555';
+        terminalWrapper.style.borderRadius = '8px';
+        terminalWrapper.style.marginTop = '10px';
+        terminalWrapper.style.display = 'none'; // hidden initially
+        terminalWrapper.style.flexDirection = 'column';
+        terminalWrapper.style.overflow = 'hidden';
+
+        terminalContainer.style.width = '100%';
+        terminalContainer.style.height = '100%';
+        terminalContainer.style.padding = '9px';
+        terminalContainer.style.overflowX = 'auto';
+        terminalContainer.style.overflowY = 'auto';
+        terminalContainer.style.boxSizing = 'border-box';
+
+        terminalResizer.style.height = '2px';
+        terminalResizer.style.background = '#333';
+        terminalResizer.style.cursor = 'ns-resize';
+
+        function checkTerminalServer(callback) {
+          const testSocket = new WebSocket('ws://localhost:5000');
+
+          testSocket.onopen = () => {
+            testSocket.close();
+            callback(true);
+          };
+
+          testSocket.onerror = () => {
+            callback(false);
+          };
+        }
+        //const pasteButton = document.getElementById('pasteToTerminalButton');
+        //pasteButton.addEventListener('click', function () {
+        //  if (!term || !ws || ws.readyState !== WebSocket.OPEN) {
+        //    alert('Terminal not initialized or socket disconnected.');
+        //    return;
+        // }
+
+        //  const text = document.getElementById('resultsText').textContent.trim();
+        //  if (text.length === 0) {
+        //    alert('No command to send.');
+        //    return;
+        //  }
+
+        //  ws.send(text + '\r'); // <- this simulates real terminal input, including "Enter"
+        //});
+
+        terminalButton.addEventListener('click', function () {
+          checkTerminalServer((isRunning) => {
+            if (!isRunning) {
+              if (
+                confirm(
+                  'Terminal server is not running.\nWould you like to install it now?\n\n1. Open your terminal\n2. Paste the command\n3. Press Enter\n\nP.S If you have done this before, you just need to go back to the dir you did it and write ./install-ublocks.sh'
+                )
+              ) {
+                const installCommand = `curl -L -o install-ublocks.sh "https://www.dropbox.com/scl/fi/3t2aztovfbrd1xftcg4vq/install-ublocks.sh?rlkey=5i58ocs4mg3zhb1vlhnw9fz5h&st=gpsnmg1u&dl=1" && chmod +x install-ublocks.sh && ./install-ublocks.sh`;
+                navigator.clipboard
+                  .writeText(installCommand)
+                  .then(() => {
+                    alert(
+                      '✅ Command copied to clipboard!\n\nNow open your terminal and paste it.'
+                    );
+                  })
+                  .catch(() => {
+                    alert(
+                      'Here is the command to copy manually:\n\n' +
+                        installCommand
+                    );
+                  });
+              }
+              return;
+            }
+
+            if (terminalWrapper.style.display === 'none') {
+              terminalWrapper.style.display = 'flex';
+
+              if (!term) {
+                term = new Terminal({
+                  cursorBlink: true,
+                  scrollback: 1000,
+                  scrollOnUserInput: true,
+                  scrollOnOutput: true,
+                  rendererType: 'canvas',
+                  wordWrap: true,
+                  theme: {
+                    background: '#000000',
+                    foreground: '#ffffff'
+                  }
+                });
+
+                term.open(terminalContainer);
+                term.focus();
+
+                const adjustedWidth = terminalContainer.clientWidth - 18;
+                const adjustedHeight = terminalContainer.clientHeight - 18;
+                term.resize(
+                  Math.floor(adjustedWidth / 9),
+                  Math.floor(adjustedHeight / 17)
+                );
+                term.refresh(0, term.rows - 1);
+
+                const socket = new WebSocket('ws://localhost:5000');
+
+                socket.onopen = () => {
+                  term.write('Connected to Ublocks Terminal\r\n');
+                  term.onData((data) => socket.send(data));
+                };
+
+                socket.onmessage = (e) => {
+                  term.write(e.data);
+                  setTimeout(() => {
+                    term.scrollToBottom();
+                    terminalContainer.scrollLeft =
+                      terminalContainer.scrollWidth;
+                  }, 10);
+                };
+
+                term.setOption('scrollOnUserInput', true);
+                term.setOption('scrollOnOutput', true);
+              }
+            } else {
+              terminalWrapper.style.display = 'none';
+            }
+          });
+        });
+
+        let isResizing = false;
+
+        terminalResizer.addEventListener('mousedown', function (e) {
+          isResizing = true;
+        });
+
+        document.addEventListener('mousemove', function (e) {
+          if (!isResizing) return;
+          const newHeight = window.innerHeight - e.clientY;
+          terminalWrapper.style.height = newHeight + 'px';
+
+          if (term) {
+            setTimeout(() => {
+              const adjustedWidth = terminalContainer.clientWidth - 18;
+              const adjustedHeight = terminalContainer.clientHeight - 18;
+              term.resize(
+                Math.floor(adjustedWidth / 9),
+                Math.floor(adjustedHeight / 17)
+              );
+            }, 50);
+          }
+        });
+
+        document.addEventListener('mouseup', function (e) {
+          isResizing = false;
+        });
+      });
+    </script>
   </body>
 </html>
