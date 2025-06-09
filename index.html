@@ -19,6 +19,29 @@
     <!-- <script src="https://unpkg.com/@blockly/block-plus-minus"></script> -->
 
     <!-- BLOCKS DEFINITION -->
+    <script src="blocks/gitStashPopBlock.js"></script>
+    <script src="blocks/gitStashBlock.js"></script>
+    <script src="blocks/gitShowBlock.js"></script>
+    <script src="blocks/gitTagBlock.js"></script>
+    <script src="blocks/gitViewConfigBlock.js"></script>
+    <script src="blocks/gitSetConfigBlock.js"></script>
+    <script src="blocks/gitFetchBlock.js"></script>
+    <script src="blocks/gitCheckoutBlock.js"></script>
+    <script src="blocks/gitBranchBlock.js"></script>
+    <script src="blocks/gitRemoteBlock.js"></script>
+    <script src="blocks/gitMergeBlock.js"></script>
+    <script src="blocks/gitPullBlock.js"></script>
+    <script src="blocks/gitResetBlock.js"></script>
+    <script src="blocks/gitCleanBlock.js"></script>
+    <script src="blocks/gitRestoreBlock.js"></script>
+    <script src="blocks/gitDiffBlock.js"></script>
+    <script src="blocks/gitLogBlock.js"></script>
+    <script src="blocks/gitCloneBlock.js"></script>
+    <script src="blocks/gitInitBlock.js"></script>
+    <script src="blocks/gitPushBlock.js"></script>
+    <script src="blocks/gitStatusBlock.js"></script>
+    <script src="blocks/gitAddBlock.js"></script>
+    <script src="blocks/gitCommitBlock.js"></script>
     <script src="blocks/psBlock.js"></script>
     <script src="blocks/argumentsCreateBlock.js"></script>
     <script src="blocks/argumentBlock.js"></script>
@@ -394,6 +417,11 @@
           colourSecondary: '#ff0000',
           colourTertiary: '#C5EAFF'
         },
+        'Git Version Control': {
+          colourPrimary: '#D2042D', // Cherry Red
+          colourSecondary: '#B03B1E',
+          colourTertiary: '#FFD7C2'
+        },
         'Other Commands': {
           colourPrimary: '#009688',
           colourSecondary: '#ff0000',
@@ -705,6 +733,39 @@
                   //}
                 ]
               }
+            ]
+          },
+          {
+            kind: 'sep'
+          },
+          {
+            kind: 'category',
+            name: 'Git Version Control',
+            colour: '#D2042D',
+            contents: [
+              { kind: 'block', type: 'git init' },
+              { kind: 'block', type: 'git clone' },
+              { kind: 'block', type: 'git add' },
+              { kind: 'block', type: 'git commit' },
+              { kind: 'block', type: 'git status' },
+              { kind: 'block', type: 'git push' },
+              { kind: 'block', type: 'git log' },
+              { kind: 'block', type: 'git diff' },
+              { kind: 'block', type: 'git restore' },
+              { kind: 'block', type: 'git clean' },
+              { kind: 'block', type: 'git reset' },
+              { kind: 'block', type: 'git pull' },
+              { kind: 'block', type: 'git branch' },
+              { kind: 'block', type: 'git checkout' },
+              { kind: 'block', type: 'git merge' },
+              { kind: 'block', type: 'git remote -v' },
+              { kind: 'block', type: 'git fetch' },
+              { kind: 'block', type: 'git config' },
+              { kind: 'block', type: 'git config --list' },
+              { kind: 'block', type: 'git tag' },
+              { kind: 'block', type: 'git show' },
+              { kind: 'block', type: 'git stash' },
+              { kind: 'block', type: 'git stash pop' }
             ]
           },
           {
