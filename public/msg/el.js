@@ -1294,7 +1294,7 @@ Blockly.Msg['GIT_COMMIT_HELPURL'] = 'https://git-scm.com/docs/git-commit';
 
 // git diff command
 Blockly.Msg['GIT_DIFF'] =
-  'Εμφανίζει τις αλλαγές που έγιναν στον κατάλογο εργασίας\n Σε σύγκριση με το index ή το τελευταίο commit';
+  'Εμφάνιση των αλλαγών που έγιναν στον κατάλογο εργασίας\n Σε σύγκριση με το index ή το τελευταίο commit';
 Blockly.Msg['GIT_DIFF_TOOLTIP'] =
   'Εμφανίζει τις διαφορές μεταξύ του καταλόγου εργασίας και του index ή του τελευταίου commit.';
 Blockly.Msg['GIT_DIFF_HELPURL'] = 'https://git-scm.com/docs/git-diff';
